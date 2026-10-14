@@ -45,6 +45,6 @@ public sealed class DuelOfHonor : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        EnergyCost.SetBaseValue(0);
+        EnergyCost.SetCustomBaseCost(0);
     }
 }
