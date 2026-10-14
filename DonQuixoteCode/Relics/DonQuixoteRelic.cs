@@ -1,43 +1,76 @@
-using MegaCrit.Sts2.Core.Commands;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Rooms;
+using MegaCrit.Sts2.Core.Rewards;
 using DonQuixote.Characters;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
+using STS2RitsuLib.Utils;
 
 namespace DonQuixote.Relics;
 
-// RegisterRelic 会把遗物注册进指定遗物池。
-// RegisterCharacterStarterRelic 会把它作为 DonQuixoteCharacter 的初始遗物。
 [RegisterRelic(typeof(DonQuixoteRelicPool))]
 [RegisterCharacterStarterRelic(typeof(DonQuixoteCharacter))]
 public sealed class DonQuixoteRelic : ModRelicTemplate
 {
-    // 稀有度。
-    public override RelicRarity Rarity => RelicRarity.Common;
+    // 废料计数，随存档保存。默认 0。
+    public static readonly SavedAttachedState<DonQuixoteRelic, int> ScrapCount =
+        new("ScrapCount", _ => 0);
 
-    // 遗物的数值。这里会替换本地化中的 {Cards}。
+    public override RelicRarity Rarity => RelicRarity.Starter;
+
+    // 遗物描述里的 {ScrapCount} 占位符，对应这个值。
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CardsVar(1)
+        new DynamicVar("ScrapCount", ScrapCount[this])
     ];
 
-    // 图片资源统一放在 AssetProfile 里配置。
-    // 三个路径可以先指向同一张图。后续有高清图或轮廓图时再拆开。
     public override RelicAssetProfile AssetProfile => new(
-        // 小图标（原版 85x85）。
         IconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png",
-        // 轮廓图标（原版 85x85）。
         IconOutlinePath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png",
-        // 大图标（原版 256x256）。
-        BigIconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png");
+        BigIconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png"
+    );
 
-    // 每回合开始时，抽一张牌。
-    // 这里使用 DynamicVars.Cards.IntValue，保证效果和本地化显示保持一致。
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    // 战斗奖励改造：移除金币，掉落废料。
+    public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
     {
-        await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, player);
+        if (player != Owner) return false;
+        if (room == null) return false;
+        if (!room.RoomType.IsCombatRoom()) return false;
+        // 最终 Boss 房间不掉废料（原版逻辑，此处保留）
+        if (room.RoomType == RoomType.Boss && player.RunState.CurrentActIndex >= player.RunState.Acts.Count - 1)
+        {
+            return false;
+        }
+
+        int scrap = room.RoomType switch
+        {
+            RoomType.Elite => 2,
+            RoomType.Boss => 5,
+            _ => 1
+        };
+
+        // 移除所有金币奖励
+        rewards.RemoveAll(r => r is GoldReward);
+
+        // 增加废料计数并刷新 UI
+        ScrapCount[this] += scrap;
+        DynamicVars["ScrapCount"].BaseValue = ScrapCount[this];
+
+        return true;
+    }
+
+    // 进入房间：如果是商店，+2 废料
+    public override Task AfterRoomEntered(AbstractRoom room)
+    {
+        if (room.RoomType != RoomType.Shop) return Task.CompletedTask;
+
+        ScrapCount[this] += 2;
+        DynamicVars["ScrapCount"].BaseValue = ScrapCount[this];
+
+        return Task.CompletedTask;
     }
 }

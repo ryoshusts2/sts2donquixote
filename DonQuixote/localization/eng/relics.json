@@ -1,5 +1,5 @@
 {
-  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.title": "Template Relic",
-  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.description": "At the start of each turn, draw [blue]{Cards}[/blue] card.",
-  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.flavor": "A sample relic used to verify the template project."
+  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.title": "Hero's Spoils",
+  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.description": "Combat rewards no longer give gold. Instead gain scrap (Normal 1 / Elite 2 / Boss 5). Entering a shop grants 2 scrap.\nCurrent scrap: [blue]{ScrapCount}[/blue]",
+  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.flavor": "That mad beggar refuses to let go of his trash. Won't even let anyone touch it. Hah, madman."
 }

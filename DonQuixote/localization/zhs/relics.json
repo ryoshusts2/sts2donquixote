@@ -1,5 +1,5 @@
 {
   "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.title": "英雄的战利品",
-  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.description": "骑士出征的战利品。",
-  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.flavor": "「真正的骑士，从不空手而归。」"
+  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.description": "战斗胜利时不再获得金币，改为获得废料（普通 1 / 精英 2 / Boss 5）。进入商店时获得 2 废料。\n当前废料：[blue]{ScrapCount}[/blue]",
+  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.flavor": "那个疯乞丐就是不肯丢下那些垃圾，还不让人碰。呵，疯子。"
 }
