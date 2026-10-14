@@ -1,0 +1,8 @@
+{
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_STRIKE.title": "模板打击",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_STRIKE.description": "造成 {Damage:diff()} 点伤害。",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_STRIKE.smartDescription": "造成 {Damage:diff()} 点伤害。",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.title": "模板防御",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.description": "获得 {Block:diff()} 点格挡。",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.smartDescription": "获得 {Block:diff()} 点格挡。"
+}

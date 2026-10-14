@@ -1,0 +1,21 @@
+{
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.aromaPrinciple": "[sine][blue]A clean template is ready for a new run.[/blue][/sine]",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.banter.alive.endTurnPing": "Turn complete.",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.banter.dead.endTurnPing": "I am out for now.",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.cardsModifierDescription": "Template Character cards can now appear in rewards and shops.",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.cardsModifierTitle": "Template Cards",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.defeatMessage": "The template still needs a little tuning.",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.description": "A sample character used to verify the RitsuLib template project.\nReplace this text with your own character concept after copying the template.",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.eventDeathPrevention": "Template Character keeps going.",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.flavor": "A clean template waiting to become a new adventure.",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.goldMonologue": "This gold is enough to start testing.",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.possessiveAdjective": "their",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.pronounObject": "them",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.pronounPossessive": "theirs",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.pronounSubject": "they",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.selectMessage": "Template Character is ready.",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.title": "Template Character",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.titleObject": "Template Character",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.unlockText": "Complete a run as [pink]{Prerequisite}[/pink] to unlock this character.",
+  "DON_QUIXOTE_CHARACTER_DON_QUIXOTE_CHARACTER.victoryMessage": "Template verification complete."
+}

@@ -1,0 +1,8 @@
+{
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_STRIKE.title": "Template Strike",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_STRIKE.description": "Deal {Damage:diff()} damage.",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_STRIKE.smartDescription": "Deal {Damage:diff()} damage.",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.title": "Template Defend",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.description": "Gain {Block:diff()} Block.",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.smartDescription": "Gain {Block:diff()} Block."
+}

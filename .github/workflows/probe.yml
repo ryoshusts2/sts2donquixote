@@ -1,0 +1,41 @@
+name: Probe MegaDot
+
+on:
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: windows-latest
+    steps:
+      - name: Download MegaDot Editor
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://megadot.megacrit.com/4.5.1-m.14/megadot-4.5.1-m.14-windows-x86_64-llvm-editor-csharp.zip" -OutFile editor.zip
+          Get-Item editor.zip | Select-Object Name, Length
+
+      - name: Extract and list Editor
+        shell: pwsh
+        run: |
+          Expand-Archive -Path editor.zip -DestinationPath editor
+          Write-Host "=== editor/ top-level ==="
+          Get-ChildItem editor | Format-Table Name, Length
+          Write-Host "=== editor/ all *.exe ==="
+          Get-ChildItem editor -Recurse -Filter *.exe | Select-Object FullName
+          Write-Host "=== editor/ all *.dll (first 20) ==="
+          Get-ChildItem editor -Recurse -Filter *.dll | Select-Object -First 20 FullName
+
+      - name: Download Export Templates
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://megadot.megacrit.com/4.5.1-m.14/megadot-4.5.1-m.14-mono-export-templates.tpz" -OutFile templates.tpz
+          Get-Item templates.tpz | Select-Object Name, Length
+
+      - name: Extract and list Templates
+        shell: pwsh
+        run: |
+          Copy-Item templates.tpz templates.zip
+          Expand-Archive -Path templates.zip -DestinationPath templates
+          Write-Host "=== templates/ top-level ==="
+          Get-ChildItem templates | Format-Table Name, Length
+          Write-Host "=== templates/ depth 2 ==="
+          Get-ChildItem templates -Recurse -Depth 2 | Select-Object -First 40 FullName

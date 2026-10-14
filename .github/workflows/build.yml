@@ -1,0 +1,107 @@
+name: Build DonQuixote
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Download MegaDot Editor
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://megadot.megacrit.com/4.5.1-m.14/megadot-4.5.1-m.14-windows-x86_64-llvm-editor-csharp.zip" -OutFile editor.zip
+          Expand-Archive -Path editor.zip -DestinationPath editor
+
+      - name: Download and install Export Templates
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://megadot.megacrit.com/4.5.1-m.14/megadot-4.5.1-m.14-mono-export-templates.tpz" -OutFile templates.tpz
+          Copy-Item templates.tpz templates.zip
+          Expand-Archive -Path templates.zip -DestinationPath templates_tmp
+          $version = (Get-Content templates_tmp/templates/version.txt -Raw).Trim()
+          Write-Host "Detected templates version: $version"
+          $targetDir = "$env:APPDATA\Godot\export_templates\$version"
+          New-Item -ItemType Directory -Force -Path $targetDir | Out-Null
+          Copy-Item "templates_tmp/templates/*" $targetDir -Recurse -Force
+          Write-Host "Templates installed to: $targetDir"
+          Get-ChildItem $targetDir | Format-Table Name, Length
+
+      - name: Create local.props
+        shell: pwsh
+        run: |
+          $editorPath = (Resolve-Path "editor/MegaDot_v4.5.1-stable_mono_win64.exe").Path
+          $content = @"
+          <Project>
+            <PropertyGroup>
+              <Sts2Dir>`$(MSBuildProjectDirectory)</Sts2Dir>
+              <Sts2DataDir>`$(MSBuildProjectDirectory)</Sts2DataDir>
+              <GodotExe>$editorPath</GodotExe>
+              <RunPckExport>true</RunPckExport>
+              <CopyModOnBuild>false</CopyModOnBuild>
+            </PropertyGroup>
+          </Project>
+          "@
+          $content | Out-File -FilePath local.props -Encoding utf8
+          Write-Host "=== local.props ==="
+          Get-Content local.props
+
+      - name: Restore
+        run: dotnet restore DonQuixote.csproj
+
+      - name: Build
+        run: dotnet build DonQuixote.csproj -c Release --no-restore
+
+      - name: List all build outputs
+        shell: pwsh
+        run: |
+          Write-Host "========== 项目根目录 =========="
+          Get-ChildItem . | Select-Object Name, Mode, Length | Format-Table
+
+          Write-Host "========== .godot/ 目录树（深度 5） =========="
+          if (Test-Path .godot) {
+            Get-ChildItem .godot -Recurse -Depth 5 -File | Select-Object FullName, Length | Format-Table
+          } else {
+            Write-Host "没有 .godot 目录"
+          }
+
+          Write-Host "========== 搜索所有 DonQuixote.dll =========="
+          Get-ChildItem . -Recurse -Filter "DonQuixote.dll" -ErrorAction SilentlyContinue | Select-Object FullName, Length | Format-Table
+
+          Write-Host "========== 搜索所有 DonQuixote.pck =========="
+          Get-ChildItem . -Recurse -Filter "DonQuixote.pck" -ErrorAction SilentlyContinue | Select-Object FullName, Length | Format-Table
+
+          Write-Host "========== 搜索所有 DonQuixote.json =========="
+          Get-ChildItem . -Recurse -Filter "DonQuixote.json" -ErrorAction SilentlyContinue | Select-Object FullName, Length | Format-Table
+
+          Write-Host "========== mods/ 目录（如果存在） =========="
+          if (Test-Path mods) {
+            Get-ChildItem mods -Recurse -File | Select-Object FullName, Length | Format-Table
+          } else {
+            Write-Host "没有 mods 目录"
+          }
+
+      - name: Upload dll and manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: DonQuixote-dll
+          path: |
+            .godot/mono/temp/bin/Release/DonQuixote.dll
+            DonQuixote.json
+          if-no-files-found: warn
+
+      - name: Upload pck
+        uses: actions/upload-artifact@v4
+        with:
+          name: DonQuixote-pck
+          path: mods/DonQuixote/DonQuixote.pck
+          if-no-files-found: warn
