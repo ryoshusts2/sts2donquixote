@@ -1,0 +1,8 @@
+{
+  "DON_QUIXOTE_POWER_FAIR_DUEL_POWER.title": "堂堂正正",
+  "DON_QUIXOTE_POWER_FAIR_DUEL_POWER.description": "对堂吉诃德造成的伤害降低 20%；受到堂吉诃德造成的伤害提高 20%。",
+  "DON_QUIXOTE_POWER_FAIR_DUEL_POWER.smartDescription": "对堂吉诃德造成的伤害降低 20%；受到堂吉诃德造成的伤害提高 20%。",
+  "DON_QUIXOTE_POWER_REIN_IN_MARKER_POWER.title": "勒马回转",
+  "DON_QUIXOTE_POWER_REIN_IN_MARKER_POWER.description": "回合结束时失去等量层数的缓冲，然后移除。",
+  "DON_QUIXOTE_POWER_REIN_IN_MARKER_POWER.smartDescription": "回合结束时失去 {Amount} 层缓冲，然后移除。"
+}

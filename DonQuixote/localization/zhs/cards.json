@@ -1,8 +1,17 @@
 {
-  "DON_QUIXOTE_CARD_DON_QUIXOTE_STRIKE.title": "打击",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_STRIKE.title": "冲锋",
   "DON_QUIXOTE_CARD_DON_QUIXOTE_STRIKE.description": "造成 {Damage:diff()} 点伤害。",
   "DON_QUIXOTE_CARD_DON_QUIXOTE_STRIKE.smartDescription": "造成 {Damage:diff()} 点伤害。",
-  "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.title": "防御",
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.title": "招架",
   "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.description": "获得 {Block:diff()} 点格挡。",
-  "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.smartDescription": "获得 {Block:diff()} 点格挡。"
+  "DON_QUIXOTE_CARD_DON_QUIXOTE_DEFEND.smartDescription": "获得 {Block:diff()} 点格挡。",
+  "DON_QUIXOTE_CARD_DUEL_OF_HONOR.title": "公正决斗",
+  "DON_QUIXOTE_CARD_DUEL_OF_HONOR.description": "指定一名敌人，令其获得 [gold]堂堂正正[/gold]。",
+  "DON_QUIXOTE_CARD_DUEL_OF_HONOR.smartDescription": "指定一名敌人，令其获得 [gold]堂堂正正[/gold]。",
+  "DON_QUIXOTE_CARD_REIN_IN_AND_TURN.title": "勒马回转",
+  "DON_QUIXOTE_CARD_REIN_IN_AND_TURN.description": "造成 {Damage:diff()} 点伤害，获得 {BufferStacks:diff()} 层[gold]缓冲[/gold]。回合结束时失去等量缓冲。",
+  "DON_QUIXOTE_CARD_REIN_IN_AND_TURN.smartDescription": "造成 {Damage:diff()} 点伤害，获得 {BufferStacks:diff()} 层[gold]缓冲[/gold]。回合结束时失去等量缓冲。",
+  "DON_QUIXOTE_CARD_REST_AND_BREATHE.title": "调息",
+  "DON_QUIXOTE_CARD_REST_AND_BREATHE.description": "抽 {Cards:diff()} 张牌。下回合开始获得 {Energy:diff()} 点能量并额外抽 {Cards:diff()} 张牌。",
+  "DON_QUIXOTE_CARD_REST_AND_BREATHE.smartDescription": "抽 {Cards:diff()} 张牌。下回合开始获得 {Energy:diff()} 点能量并额外抽 {Cards:diff()} 张牌。"
 }
