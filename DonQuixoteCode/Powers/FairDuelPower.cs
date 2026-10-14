@@ -23,7 +23,7 @@ public sealed class FairDuelPower : ModPowerTemplate
     );
 
     public override decimal ModifyDamageMultiplicative(
-        Creature? target, decimal amount, ValueProps props,
+        Creature? target, decimal amount, ValueProp props,
         Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
     {
         if (target == Owner && IsDonQuixote(dealer))
