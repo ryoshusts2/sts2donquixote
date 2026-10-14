@@ -31,33 +31,22 @@ public sealed class DonQuixoteCharacter : ModCharacterTemplate<DonQuixoteCardPoo
     public override CharacterGender Gender => CharacterGender.Neutral;
 
     // 初始血量和金币。
-    public override int StartingHp => 75;
+    public override int StartingHp => 70;
     public override int StartingGold => 99;
 
     // CharacterAssetProfile 按类别拆分。你只写需要替换的部分，其他字段会保留回退。
-    // AssetProfile 只指定模板自带的静态占位资源；没有复制的音频、拖尾、转场等资源继续从占位角色回退。
     public override CharacterAssetProfile AssetProfile => new(
         Scenes: new CharacterSceneAssetSet(
-            // 人物模型 tscn 路径。
             VisualsPath: CharacterScenePath,
-            // 能量表盘 tscn 路径。
             EnergyCounterPath: EnergyCounterScenePath,
-            // 商店人物场景。
             MerchantAnimPath: MerchantScenePath,
-            // 篝火休息场景。
             RestSiteAnimPath: RestSiteScenePath),
         Ui: new CharacterUiAssetSet(
-            // 人物头像路径。
             IconTexturePath: $"{ImageRoot}/DonQuixote_character_icon.png",
-            // 人物头像轮廓。
             IconOutlineTexturePath: $"{ImageRoot}/DonQuixote_character_icon_outline.png",
-            // 人物选择背景。
             CharacterSelectBgPath: CharacterSelectBgScenePath,
-            // 人物选择图标。
             CharacterSelectIconPath: $"{ImageRoot}/DonQuixote_character_select.png",
-            // 人物选择图标-锁定状态。
             CharacterSelectLockedIconPath: $"{ImageRoot}/DonQuixote_character_select_locked.png",
-            // 地图上的角色标记图标、表情轮盘上的角色头像。
             MapMarkerPath: $"{ImageRoot}/DonQuixote_map_marker.png"));
 
     // 某个字段没写时，RitsuLib 会从占位角色配置里补齐。
@@ -69,7 +58,6 @@ public sealed class DonQuixoteCharacter : ModCharacterTemplate<DonQuixoteCardPoo
     public override float CastAnimDelay => 0f;
 
     // 让 RitsuLib 把普通 Godot 场景转换成游戏需要的 NCreatureVisuals。
-    // 自动转换人物场景，让你不需要手动挂脚本。复制即可。
     protected override NCreatureVisuals? TryCreateCreatureVisuals()
     {
         return RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(
