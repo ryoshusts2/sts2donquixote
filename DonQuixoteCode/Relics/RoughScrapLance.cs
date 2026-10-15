@@ -69,7 +69,7 @@ public sealed class RoughScrapLance : ModRelicTemplate
             if (enemy == target) continue;
             await CreatureCmd.Damage(
                 choiceContext, enemy, splash,
-                ValueProp.Unpowered, Owner.Creature, null);
+                ValueProp.Unpowered, Owner.Creature);
         }
     }
 }
