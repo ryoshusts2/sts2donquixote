@@ -23,6 +23,8 @@ public sealed class DeadlyCharge : ModCardTemplate
         new CardsVar(2)
     ];
 
+    protected override HashSet<CardTag> CanonicalTags => new() { CardTag.Strike };
+
     public DeadlyCharge() : base(BaseEnergyCost, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy, true)
     {
     }
