@@ -37,16 +37,16 @@ public sealed class KnightingCeremony : ModCardTemplate
             choiceContext, Owner.Creature,
             DynamicVars["DexterityPower"].BaseValue, Owner.Creature, this);
 
-        if (!IsUpgraded)
-        {
-            await PowerCmd.Apply<VulnerablePower>(
-                choiceContext, Owner.Creature,
-                DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this);
-        }
+        // 升级后 VulnerablePower.BaseValue = 0，施加 0 层等于没施加
+        await PowerCmd.Apply<VulnerablePower>(
+            choiceContext, Owner.Creature,
+            DynamicVars["VulnerablePower"].BaseValue, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
         EnergyCost.UpgradeBy(-1);
+        // 把易伤层数改成 0，描述也随之显示 0
+        DynamicVars["VulnerablePower"].UpgradeValueBy(-1m);
     }
 }
