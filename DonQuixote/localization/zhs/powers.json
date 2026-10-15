@@ -16,5 +16,8 @@
   "DON_QUIXOTE_POWER_KNIGHTLY_TRAINING_POWER.smartDescription": "每使用 4 张牌，回复 1 点能量。",
   "DON_QUIXOTE_POWER_MASTERY_POWER.title": "熟能生巧",
   "DON_QUIXOTE_POWER_MASTERY_POWER.description": "带有「冲锋」的攻击牌伤害提高，数值等于卡组中带有「冲锋」的牌的数量。",
-  "DON_QUIXOTE_POWER_MASTERY_POWER.smartDescription": "带有「冲锋」的攻击牌伤害提高，数值等于卡组中带有「冲锋」的牌的数量。"
+  "DON_QUIXOTE_POWER_MASTERY_POWER.smartDescription": "带有「冲锋」的攻击牌伤害提高，数值等于卡组中带有「冲锋」的牌的数量。",
+  "DON_QUIXOTE_POWER_KNIGHT_OATH_POWER.title": "骑士之誓",
+  "DON_QUIXOTE_POWER_KNIGHT_OATH_POWER.description": "无畏的减伤效果提升至 50%。",
+  "DON_QUIXOTE_POWER_KNIGHT_OATH_POWER.smartDescription": "无畏的减伤效果提升至 50%。"
 }

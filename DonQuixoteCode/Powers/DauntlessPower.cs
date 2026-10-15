@@ -31,6 +31,8 @@ public sealed class DauntlessPower : ModPowerTemplate
         Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
     {
         if (target != Owner) return 1m;
+        // 持有「骑士之誓」标记：减伤提升至 50%
+        if (Owner.GetPower<KnightOathPower>() != null) return 0.5m;
         return 0.7m;
     }
 

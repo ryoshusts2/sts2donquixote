@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using DonQuixote.Characters;
@@ -30,15 +33,22 @@ public sealed class InTheNameOfTheKnight : ModCardTemplate
     {
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
 
+        // 给自己打上「骑士之誓」标记：无畏减伤效果提升至 50%
+        await PowerCmd.Apply<KnightOathPower>(
+            choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+
         if (CombatState == null) return;
 
-        var teammates = CombatState.GetTeammatesOf(Owner.Creature)
-            .Where(c => c != null && c.IsAlive && c.IsPlayer);
+        // 所有玩家（自己 + 队友）获得无畏
+        var targets = new List<Creature> { Owner.Creature };
+        targets.AddRange(
+            CombatState.GetTeammatesOf(Owner.Creature)
+                .Where(c => c != null && c.IsAlive && c.IsPlayer && c != Owner.Creature));
 
-        foreach (var teammate in teammates)
+        foreach (var teammate in targets)
         {
             await PowerCmd.Apply<DauntlessPower>(
-                choiceContext, teammate, DynamicVars.DauntlessPower.BaseValue, Owner.Creature, this);
+                choiceContext, teammate, DynamicVars["DauntlessPower"].BaseValue, Owner.Creature, this);
         }
 
         // TODO: 队友受到伤害时转移 20% 给堂吉诃德
@@ -48,6 +58,6 @@ public sealed class InTheNameOfTheKnight : ModCardTemplate
     protected override void OnUpgrade()
     {
         EnergyCost.UpgradeBy(-1);
-        DynamicVars.DauntlessPower.UpgradeValueBy(1m);
+        DynamicVars["DauntlessPower"].UpgradeValueBy(1m);
     }
 }
