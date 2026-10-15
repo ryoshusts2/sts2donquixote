@@ -22,12 +22,6 @@ public sealed class ChargeStance : ModCardTemplate
         new PowerVar<VulnerablePower>(2m)
     ];
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => new IHoverTip[]
-    {
-        HoverTipFactory.FromPower<WeakPower>(),
-        HoverTipFactory.FromPower<VulnerablePower>()
-    };
-
     public ChargeStance() : base(0, CardType.Skill, CardRarity.Rare, TargetType.AnyEnemy, true)
     {
     }
