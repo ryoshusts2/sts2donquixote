@@ -43,5 +43,20 @@
   "DON_QUIXOTE_CARD_COMBAT_INSTINCT.smartDescription": "获得 {Block:diff()} 点格挡，造成 {Damage:diff()} 点伤害，抽 {Cards:diff()} 张牌。",
   "DON_QUIXOTE_CARD_KNIGHTING_CEREMONY.title": "游侠骑士册封圣礼",
   "DON_QUIXOTE_CARD_KNIGHTING_CEREMONY.description": "获得 {DauntlessPower:diff()} 层[gold]无畏[/gold]和 {DexterityPower:diff()} 层[gold]敏捷[/gold]。对自己施加 {VulnerablePower:diff()} 层[gold]易伤[/gold]。",
-  "DON_QUIXOTE_CARD_KNIGHTING_CEREMONY.smartDescription": "获得 {DauntlessPower:diff()} 层[gold]无畏[/gold]和 {DexterityPower:diff()} 层[gold]敏捷[/gold]。对自己施加 {VulnerablePower:diff()} 层[gold]易伤[/gold]。"
+  "DON_QUIXOTE_CARD_KNIGHTING_CEREMONY.smartDescription": "获得 {DauntlessPower:diff()} 层[gold]无畏[/gold]和 {DexterityPower:diff()} 层[gold]敏捷[/gold]。对自己施加 {VulnerablePower:diff()} 层[gold]易伤[/gold]。",
+  "DON_QUIXOTE_CARD_HOW_DARE_YOU.title": "你怎敢？",
+  "DON_QUIXOTE_CARD_HOW_DARE_YOU.description": "获得 {Block:diff()} 点格挡。若任一敌人有攻击意图，获得 {Energy:diff()} 点能量。",
+  "DON_QUIXOTE_CARD_HOW_DARE_YOU.smartDescription": "获得 {Block:diff()} 点格挡。若任一敌人有攻击意图，获得 {Energy:diff()} 点能量。",
+  "DON_QUIXOTE_CARD_KNIGHTLY_TRAINING.title": "骑士修养",
+  "DON_QUIXOTE_CARD_KNIGHTLY_TRAINING.description": "每使用 4 张牌，回复 1 点能量。",
+  "DON_QUIXOTE_CARD_KNIGHTLY_TRAINING.smartDescription": "每使用 4 张牌，回复 1 点能量。",
+  "DON_QUIXOTE_CARD_MASTERY.title": "熟能生巧",
+  "DON_QUIXOTE_CARD_MASTERY.description": "所有带有「冲锋」的攻击牌伤害提高，数值等于卡组中带有「冲锋」的牌的数量。",
+  "DON_QUIXOTE_CARD_MASTERY.smartDescription": "所有带有「冲锋」的攻击牌伤害提高，数值等于卡组中带有「冲锋」的牌的数量。",
+  "DON_QUIXOTE_CARD_SACRIFICIAL_SPIRIT.title": "牺牲精神",
+  "DON_QUIXOTE_CARD_SACRIFICIAL_SPIRIT.description": "失去 {HpLoss:diff()} 点生命值。所有玩家抽 {Cards:diff()} 张牌。",
+  "DON_QUIXOTE_CARD_SACRIFICIAL_SPIRIT.smartDescription": "失去 {HpLoss:diff()} 点生命值。所有玩家抽 {Cards:diff()} 张牌。",
+  "DON_QUIXOTE_CARD_IN_THE_NAME_OF_THE_KNIGHT.title": "以骑士之名",
+  "DON_QUIXOTE_CARD_IN_THE_NAME_OF_THE_KNIGHT.description": "所有队友获得 {DauntlessPower:diff()} 层[gold]无畏[/gold]。",
+  "DON_QUIXOTE_CARD_IN_THE_NAME_OF_THE_KNIGHT.smartDescription": "所有队友获得 {DauntlessPower:diff()} 层[gold]无畏[/gold]。"
 }

@@ -34,8 +34,8 @@ public sealed class DauntlessPower : ModPowerTemplate
         return 0.7m;
     }
 
-    public override async Task AfterSideTurnEnd(
-        PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    public override async Task AfterSideTurnStart(
+        CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
         if (participants.Contains(Owner))
         {
