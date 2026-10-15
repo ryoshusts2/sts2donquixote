@@ -3,6 +3,9 @@
   "DON_QUIXOTE_POWER_FAIR_DUEL_POWER.description": "对堂吉诃德造成的伤害降低 20%；受到堂吉诃德造成的伤害提高 20%。",
   "DON_QUIXOTE_POWER_FAIR_DUEL_POWER.smartDescription": "对堂吉诃德造成的伤害降低 20%；受到堂吉诃德造成的伤害提高 20%。",
   "DON_QUIXOTE_POWER_REIN_IN_MARKER_POWER.title": "勒马回转",
-  "DON_QUIXOTE_POWER_REIN_IN_MARKER_POWER.description": "回合结束时失去等量层数的缓冲，然后移除。",
-  "DON_QUIXOTE_POWER_REIN_IN_MARKER_POWER.smartDescription": "回合结束时失去 {Amount} 层缓冲，然后移除。"
+  "DON_QUIXOTE_POWER_REIN_IN_MARKER_POWER.description": "下个自己回合开始时，失去等量层数的缓冲，然后移除。",
+  "DON_QUIXOTE_POWER_REIN_IN_MARKER_POWER.smartDescription": "下个自己回合开始时，失去 {Amount} 层缓冲，然后移除。",
+  "DON_QUIXOTE_POWER_CHARGING_UP_POWER.title": "蓄势冲锋",
+  "DON_QUIXOTE_POWER_CHARGING_UP_POWER.description": "每回合开始时获得活力。",
+  "DON_QUIXOTE_POWER_CHARGING_UP_POWER.smartDescription": "每回合开始时获得 {Amount} 层[gold]活力[/gold]。"
 }

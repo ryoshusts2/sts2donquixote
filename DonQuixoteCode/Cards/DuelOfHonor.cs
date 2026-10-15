@@ -13,15 +13,11 @@ namespace DonQuixote.Cards;
 public sealed class DuelOfHonor : ModCardTemplate
 {
     private const int BaseEnergyCost = 1;
-    private const CardType CardKind = CardType.Skill;
-    private const CardRarity CardRarityValue = CardRarity.Basic;
-    private const TargetType CardTarget = TargetType.AnyEnemy;
-    private const bool ShowInCardLibrary = true;
 
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
 
-    public DuelOfHonor() : base(BaseEnergyCost, CardKind, CardRarityValue, CardTarget, ShowInCardLibrary)
+    public DuelOfHonor() : base(BaseEnergyCost, CardType.Skill, CardRarity.Basic, TargetType.AnyEnemy, true)
     {
     }
 
@@ -45,6 +41,6 @@ public sealed class DuelOfHonor : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        EnergyCost.SetCustomBaseCost(0);
+        EnergyCost.UpgradeBy(-1);
     }
 }

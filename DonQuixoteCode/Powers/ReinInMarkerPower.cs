@@ -24,8 +24,8 @@ public sealed class ReinInMarkerPower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    public override async Task AfterSideTurnEnd(
-        PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    public override async Task AfterSideTurnStart(
+        CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
         if (!participants.Contains(Owner)) return;
 
@@ -39,7 +39,8 @@ public sealed class ReinInMarkerPower : ModPowerTemplate
             }
             else
             {
-                await PowerCmd.ModifyAmount(choiceContext, buffer, -toRemove, null, null);
+                await PowerCmd.ModifyAmount(
+                    new BlockingPlayerChoiceContext(), buffer, -toRemove, null, null);
             }
         }
 
