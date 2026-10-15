@@ -40,5 +40,8 @@
   "DON_QUIXOTE_CARD_MOUNTED_SHOT.smartDescription": "造成 {Damage:diff()} 点伤害。目标每有 1 层[gold]虚弱[/gold]或[gold]易伤[/gold]，额外造成 {BonusPerStack:diff()} 点伤害。",
   "DON_QUIXOTE_CARD_COMBAT_INSTINCT.title": "战斗本能",
   "DON_QUIXOTE_CARD_COMBAT_INSTINCT.description": "获得 {Block:diff()} 点格挡，造成 {Damage:diff()} 点伤害，抽 {Cards:diff()} 张牌。",
-  "DON_QUIXOTE_CARD_COMBAT_INSTINCT.smartDescription": "获得 {Block:diff()} 点格挡，造成 {Damage:diff()} 点伤害，抽 {Cards:diff()} 张牌。"
+  "DON_QUIXOTE_CARD_COMBAT_INSTINCT.smartDescription": "获得 {Block:diff()} 点格挡，造成 {Damage:diff()} 点伤害，抽 {Cards:diff()} 张牌。",
+  "DON_QUIXOTE_CARD_KNIGHTING_CEREMONY.title": "游侠骑士册封圣礼",
+  "DON_QUIXOTE_CARD_KNIGHTING_CEREMONY.description": "获得 {DauntlessPower:diff()} 层[gold]无畏[/gold]和 {DexterityPower:diff()} 层[gold]敏捷[/gold]。对自己施加 {VulnerablePower:diff()} 层[gold]易伤[/gold]。",
+  "DON_QUIXOTE_CARD_KNIGHTING_CEREMONY.smartDescription": "获得 {DauntlessPower:diff()} 层[gold]无畏[/gold]和 {DexterityPower:diff()} 层[gold]敏捷[/gold]。对自己施加 {VulnerablePower:diff()} 层[gold]易伤[/gold]。"
 }
