@@ -34,6 +34,20 @@ public sealed class DonQuixoteRelic : ModRelicTemplate
         BigIconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png"
     );
 
+    // ============ 供外部（篝火选项）使用 ============
+
+    public int GetScrap() => ScrapCount[this];
+
+    public bool HasEnoughScrap(int amount) => ScrapCount[this] >= amount;
+
+    public void SpendScrap(int amount)
+    {
+        ScrapCount[this] = System.Math.Max(0, ScrapCount[this] - amount);
+        DynamicVars["ScrapCount"].BaseValue = ScrapCount[this];
+    }
+
+    // =============================================
+
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
     {
         if (player != Owner) return false;
@@ -56,7 +70,6 @@ public sealed class DonQuixoteRelic : ModRelicTemplate
         ScrapCount[this] += scrap;
         DynamicVars["ScrapCount"].BaseValue = ScrapCount[this];
 
-        // 通知「不愿清醒的梦」下降
         var dream = Owner.Relics.FirstOrDefault(r => r is UnwillingDreamRelic) as UnwillingDreamRelic;
         dream?.ProcessScrapGained(scrap);
 
