@@ -48,7 +48,7 @@ public sealed class CraftOption : RestSiteOption
             ModelDb.Relic<RoughScrapHorse>().ToMutable(),
         };
 
-        var chosen = Owner.RunState.Rng.Rewards.NextItem(pool);
+        var chosen = Owner.PlayerRng.Rewards.NextItem(pool);
         if (chosen == null) return false;
 
         await RelicCmd.Obtain(chosen, Owner, Owner.Relics.Count);
