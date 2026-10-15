@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -16,13 +18,11 @@ namespace DonQuixote.Relics;
 [RegisterCharacterStarterRelic(typeof(DonQuixoteCharacter))]
 public sealed class DonQuixoteRelic : ModRelicTemplate
 {
-    // 废料计数，随存档保存。默认 0。
     public static readonly SavedAttachedState<DonQuixoteRelic, int> ScrapCount =
         new("ScrapCount", _ => 0);
 
     public override RelicRarity Rarity => RelicRarity.Starter;
 
-    // 遗物描述里的 {ScrapCount} 占位符，对应这个值。
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DynamicVar("ScrapCount", ScrapCount[this])
@@ -34,13 +34,11 @@ public sealed class DonQuixoteRelic : ModRelicTemplate
         BigIconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png"
     );
 
-    // 战斗奖励改造：移除金币，掉落废料。
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
     {
         if (player != Owner) return false;
         if (room == null) return false;
         if (!room.RoomType.IsCombatRoom()) return false;
-        // 最终 Boss 房间不掉废料（原版逻辑，此处保留）
         if (room.RoomType == RoomType.Boss && player.RunState.CurrentActIndex >= player.RunState.Acts.Count - 1)
         {
             return false;
@@ -53,23 +51,27 @@ public sealed class DonQuixoteRelic : ModRelicTemplate
             _ => 1
         };
 
-        // 移除所有金币奖励
         rewards.RemoveAll(r => r is GoldReward);
 
-        // 增加废料计数并刷新 UI
         ScrapCount[this] += scrap;
         DynamicVars["ScrapCount"].BaseValue = ScrapCount[this];
+
+        // 通知「不愿清醒的梦」下降
+        var dream = Owner.Relics.FirstOrDefault(r => r is UnwillingDreamRelic) as UnwillingDreamRelic;
+        dream?.ProcessScrapGained(scrap);
 
         return true;
     }
 
-    // 进入房间：如果是商店，+2 废料
     public override Task AfterRoomEntered(AbstractRoom room)
     {
         if (room.RoomType != RoomType.Shop) return Task.CompletedTask;
 
         ScrapCount[this] += 2;
         DynamicVars["ScrapCount"].BaseValue = ScrapCount[this];
+
+        var dream = Owner.Relics.FirstOrDefault(r => r is UnwillingDreamRelic) as UnwillingDreamRelic;
+        dream?.ProcessScrapGained(2);
 
         return Task.CompletedTask;
     }

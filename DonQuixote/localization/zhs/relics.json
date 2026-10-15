@@ -1,5 +1,11 @@
 {
   "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.title": "英雄的战利品",
   "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.description": "战斗胜利时不再获得金币，改为获得废料（普通 1 / 精英 2 / Boss 5）。进入商店时获得 2 废料。\n当前废料：[blue]{ScrapCount}[/blue]",
-  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.flavor": "那个疯乞丐就是不肯丢下那些垃圾，还不让人碰。呵，疯子。"
+  "DON_QUIXOTE_RELIC_DON_QUIXOTE_RELIC.flavor": "那个疯乞丐就是不肯丢下那些垃圾，还不让人碰。呵，疯子。",
+  "DON_QUIXOTE_RELIC_UNWILLING_DREAM_RELIC.title": "不愿清醒的梦",
+  "DON_QUIXOTE_RELIC_UNWILLING_DREAM_RELIC.description": "获得废料时计数等量下降；战斗结束时若当前生命值大于 10，计数下降 3。失去粗糙废料遗物时上升 5。计数满 100 时，失去[gold]英雄的战利品[/gold]并获得[gold]自我？[/gold]。\n当前计数：[blue]{DreamCount}[/blue]",
+  "DON_QUIXOTE_RELIC_UNWILLING_DREAM_RELIC.flavor": "这个梦太长了，长到记不清自己是谁。",
+  "DON_QUIXOTE_RELIC_SELF_RELIC.title": "自我？",
+  "DON_QUIXOTE_RELIC_SELF_RELIC.description": "每次进入新房间时失去 3 点最大生命值。每回合最多出 5 张牌。",
+  "DON_QUIXOTE_RELIC_SELF_RELIC.flavor": "「我…吾……吾名…吉诃德……」\n「啧，疯子。」\n「堂吉诃德……」"
 }
