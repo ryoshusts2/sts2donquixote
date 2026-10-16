@@ -1,13 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Rewards;
 using DonQuixote.Characters;
+using DonQuixote.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 using STS2RitsuLib.Utils;
@@ -34,10 +37,7 @@ public sealed class DonQuixoteRelic : ModRelicTemplate
         BigIconPath: $"{Entry.ResPath}/images/relics/{GetType().Name}.png"
     );
 
-    // ============ 供外部（篝火选项）使用 ============
-
     public int GetScrap() => ScrapCount[this];
-
     public bool HasEnoughScrap(int amount) => ScrapCount[this] >= amount;
 
     public void SpendScrap(int amount)
@@ -46,7 +46,11 @@ public sealed class DonQuixoteRelic : ModRelicTemplate
         DynamicVars["ScrapCount"].BaseValue = ScrapCount[this];
     }
 
-    // =============================================
+    public override async Task BeforeCombatStart()
+    {
+        await PowerCmd.Apply<StanceManagerPower>(
+            new ThrowingPlayerChoiceContext(), Owner.Creature, 1m, Owner.Creature, null);
+    }
 
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
     {
