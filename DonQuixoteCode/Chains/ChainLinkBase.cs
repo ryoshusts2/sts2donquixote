@@ -45,7 +45,12 @@ public abstract class ChainLinkBase : ModCardTemplate
         }
 
         // 3. 用后从卡组移除
-        await CardPileCmd.RemoveFromDeck(this, true);
+        //    用 DeckVersion（卡组里的原始版本），而不是 this（打出的实例）
+        var deckCard = this.DeckVersion;
+        if (deckCard != null)
+        {
+            await CardPileCmd.RemoveFromDeck(deckCard, showPreview: false);
+        }
     }
 
     protected override void OnUpgrade()
