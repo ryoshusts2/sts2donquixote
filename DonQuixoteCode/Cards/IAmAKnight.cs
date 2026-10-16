@@ -21,7 +21,8 @@ public sealed class IAmAKnight : ModCardTemplate
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(7m, ValueProp.Move)
+        new BlockVar(7m, ValueProp.Move),
+        new DynamicVar("Draw", 0m)
     ];
 
     public IAmAKnight() : base(BaseEnergyCost, CardType.Skill, CardRarity.Common, TargetType.Self, true)
@@ -32,14 +33,15 @@ public sealed class IAmAKnight : ModCardTemplate
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
-        if (IsUpgraded)
+        int draw = DynamicVars["Draw"].IntValue;
+        if (draw > 0)
         {
-            await CardPileCmd.Draw(choiceContext, 1m, Owner);
+            await CardPileCmd.Draw(choiceContext, draw, Owner);
         }
     }
 
     protected override void OnUpgrade()
     {
-        // 升级效果通过 OnPlay 里的 IsUpgraded 判断实现
+        DynamicVars["Draw"].UpgradeValueBy(1m);
     }
 }

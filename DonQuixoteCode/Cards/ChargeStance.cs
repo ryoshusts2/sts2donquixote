@@ -20,7 +20,8 @@ public sealed class ChargeStance : ModCardTemplate
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new PowerVar<WeakPower>(2m),
-        new PowerVar<VulnerablePower>(2m)
+        new PowerVar<VulnerablePower>(2m),
+        new DynamicVar("Discount", 0m)
     ];
 
     public ChargeStance() : base(0, CardType.Skill, CardRarity.Rare, TargetType.AnyEnemy, true)
@@ -44,8 +45,8 @@ public sealed class ChargeStance : ModCardTemplate
             await CardPileCmd.Add(card, PileType.Hand);
         }
 
-        // 升级：本回合冲锋攻击卡费用 -1
-        if (IsUpgraded)
+        // 升级后：本回合冲锋攻击牌费用 -1
+        if (DynamicVars["Discount"].IntValue > 0)
         {
             await PowerCmd.Apply<ChargeStanceDiscountPower>(
                 choiceContext, Owner.Creature, 1m, Owner.Creature, this);
@@ -54,6 +55,6 @@ public sealed class ChargeStance : ModCardTemplate
 
     protected override void OnUpgrade()
     {
-        // 升级效果通过 OnPlay 里的 IsUpgraded 判断实现
+        DynamicVars["Discount"].UpgradeValueBy(1m);
     }
 }

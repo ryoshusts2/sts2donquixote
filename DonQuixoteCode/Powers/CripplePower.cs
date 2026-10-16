@@ -35,14 +35,19 @@ public sealed class CripplePower : ModPowerTemplate
         return 1m + 0.05m * Amount;
     }
 
-    // 库·丘林：每次获得残废时获得等量不屈
-    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
+    // 库·丘林：每次残废层数增加时 → 加等量不屈
+    public override async Task AfterPowerAmountChanged(
+        PlayerChoiceContext choiceContext, PowerModel power,
+        decimal amount, Creature? applier, CardModel? cardSource)
     {
+        if (power != this) return;
+        if (amount <= 0) return;
+
         var cuChulainn = Owner.Player?.Relics.Any(r => r is FantasyIdentityCrimsonKnight) == true;
         if (!cuChulainn) return;
 
         await PowerCmd.Apply<UnbrokenPower>(
-            new ThrowingPlayerChoiceContext(), Owner, Amount, applier, null);
+            choiceContext, Owner, amount, applier, null);
     }
 
     public override async Task AfterSideTurnStart(
@@ -56,7 +61,8 @@ public sealed class CripplePower : ModPowerTemplate
         }
         else
         {
-            await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), this, newAmount - Amount, null, null);
+            await PowerCmd.ModifyAmount(
+                new ThrowingPlayerChoiceContext(), this, newAmount - Amount, null, null);
         }
     }
 }
