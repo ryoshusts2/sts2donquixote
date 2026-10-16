@@ -59,4 +59,7 @@
   "DON_QUIXOTE_POWER_SLOW_MOVER_POWER.title": "动作太慢",
 "DON_QUIXOTE_POWER_SLOW_MOVER_POWER.description": "每回合开始时对所有敌人施加弱点。",
 "DON_QUIXOTE_POWER_SLOW_MOVER_POWER.smartDescription": "每回合开始时对所有敌人施加 {Amount} 层[gold]弱点[/gold]。"
+"DON_QUIXOTE_POWER_MUSCLE_MEMORY_POWER.title": "肌肉记忆",
+"DON_QUIXOTE_POWER_MUSCLE_MEMORY_POWER.description": "反击的伤害提高。",
+"DON_QUIXOTE_POWER_MUSCLE_MEMORY_POWER.smartDescription": "反击的伤害提高 {Amount} 点。"
 }

@@ -98,4 +98,22 @@
 "DON_QUIXOTE_CARD_CHARGE_THE_GIANT.title": "向巨人冲锋",
 "DON_QUIXOTE_CARD_CHARGE_THE_GIANT.description": "造成 {Damage:diff()} 点伤害，施加 {CripplePower:diff()} 层[gold]残废[/gold]，受到 5 点伤害。[gold]消耗[/gold]。",
 "DON_QUIXOTE_CARD_CHARGE_THE_GIANT.smartDescription": "造成 {Damage:diff()} 点伤害，施加 {CripplePower:diff()} 层[gold]残废[/gold]，受到 5 点伤害。[gold]消耗[/gold]。"
+"DON_QUIXOTE_CARD_FEEL_HONORED.title": "感到荣幸吧",
+"DON_QUIXOTE_CARD_FEEL_HONORED.description": "造成 {Damage:diff()} 点伤害，施加等同于未被格挡伤害的[gold]易损[/gold]。",
+"DON_QUIXOTE_CARD_FEEL_HONORED.smartDescription": "造成 {Damage:diff()} 点伤害，施加等同于未被格挡伤害的[gold]易损[/gold]。",
+"DON_QUIXOTE_CARD_POUR_OUT_WRATH.title": "倾泻怒火",
+"DON_QUIXOTE_CARD_POUR_OUT_WRATH.description": "对所有敌人造成自己已失去生命值等量的伤害，并施加 {CripplePower:diff()} 层[gold]残废[/gold]和 {BoneShatterPower:diff()} 层[gold]碎骨[/gold]。",
+"DON_QUIXOTE_CARD_POUR_OUT_WRATH.smartDescription": "对所有敌人造成自己已失去生命值等量的伤害，并施加 {CripplePower:diff()} 层[gold]残废[/gold]和 {BoneShatterPower:diff()} 层[gold]碎骨[/gold]。",
+"DON_QUIXOTE_CARD_PIERCE_THROUGH.title": "洞穿",
+"DON_QUIXOTE_CARD_PIERCE_THROUGH.description": "造成 {Damage:diff()} 点伤害 X 次。",
+"DON_QUIXOTE_CARD_PIERCE_THROUGH.smartDescription": "造成 {Damage:diff()} 点伤害 X 次。",
+"DON_QUIXOTE_CARD_SEE_MOVE_COUNTER_MOVE.title": "见招拆招",
+"DON_QUIXOTE_CARD_SEE_MOVE_COUNTER_MOVE.description": "[gold]眩晕[/gold]一名敌人。若其原本意图为攻击，获得 1 点能量并抽 1 张牌。[gold]消耗[/gold]。",
+"DON_QUIXOTE_CARD_SEE_MOVE_COUNTER_MOVE.smartDescription": "[gold]眩晕[/gold]一名敌人。若其原本意图为攻击，获得 1 点能量并抽 1 张牌。[gold]消耗[/gold]。",
+"DON_QUIXOTE_CARD_TAG_ALONG_FOR_NOW.title": "暂且同行",
+"DON_QUIXOTE_CARD_TAG_ALONG_FOR_NOW.description": "一名队友获得[gold]引路人[/gold]。",
+"DON_QUIXOTE_CARD_TAG_ALONG_FOR_NOW.smartDescription": "一名队友获得[gold]引路人[/gold]。",
+"DON_QUIXOTE_CARD_MUSCLE_MEMORY.title": "肌肉记忆",
+"DON_QUIXOTE_CARD_MUSCLE_MEMORY.description": "每次触发反击时，反击的伤害提高 {MuscleMemoryPower:diff()} 点。",
+"DON_QUIXOTE_CARD_MUSCLE_MEMORY.smartDescription": "每次触发反击时，反击的伤害提高 {MuscleMemoryPower:diff()} 点。"
 ｝

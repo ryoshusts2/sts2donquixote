@@ -32,8 +32,12 @@ public sealed class CounterPower : ModPowerTemplate
         if (dealer == null) return;
         if (!props.IsPoweredAttack()) return;
 
+        decimal perStack = 5m;
+        var memory = Owner.GetPower<MuscleMemoryPower>();
+        if (memory != null) perStack = memory.Amount;
+
         await CreatureCmd.Damage(
-            choiceContext, dealer, 5m * Amount,
+            choiceContext, dealer, perStack * Amount,
             ValueProp.Unpowered, Owner);
         await PowerCmd.Decrement(this);
     }
