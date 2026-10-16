@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -37,7 +38,10 @@ public sealed class SeekGiant : ModCardTemplate, IStanceCard, IPhase2Card
         if (top.Count == 0) return;
 
         int maxPick = IsUpgraded ? 3 : 1;
-        var prompt = new LocString("rest_site_ui", "选择至多 " + maxPick + " 张加入手牌");
+
+        // 使用原版选择 UI（FromSimpleGrid）
+        // prompt 用中文 key 作为 fallback 文本
+        var prompt = new LocString("card_selection", "选择要加入手牌的卡（可跳过）");
         var prefs = new CardSelectorPrefs(prompt, 0, maxPick);
 
         var picked = (await CardSelectCmd.FromSimpleGrid(
@@ -47,10 +51,13 @@ public sealed class SeekGiant : ModCardTemplate, IStanceCard, IPhase2Card
         {
             await CardPileCmd.Add(card, PileType.Hand);
         }
+
+        // 未选的卡自然留在抽牌堆原位 —— FromSimpleGrid 只是 UI，不移动卡
+        // 但为保险起见，未选的卡位置由游戏自身维护，无需处理
     }
 
     protected override void OnUpgrade()
     {
-        // 升级：可选数量从 1 变为 3
+        // 升级效果由 OnPlay 里的 IsUpgraded 判断实现
     }
 }
