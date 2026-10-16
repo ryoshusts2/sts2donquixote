@@ -71,4 +71,7 @@
   "DON_QUIXOTE_POWER_QUEST_MARKER_POWER.title": "委托完成",
   "DON_QUIXOTE_POWER_QUEST_MARKER_POWER.description": "战斗结束后掉落一个随机遗物。",
   "DON_QUIXOTE_POWER_QUEST_MARKER_POWER.smartDescription": "战斗结束后掉落一个随机遗物。"
+"DON_QUIXOTE_POWER_EXTRA_TURN_POWER.title": "额外回合",
+"DON_QUIXOTE_POWER_EXTRA_TURN_POWER.description": "本回合结束后，额外获得一个回合。",
+"DON_QUIXOTE_POWER_EXTRA_TURN_POWER.smartDescription": "本回合结束后，额外获得 {Amount} 个回合。"
 }

@@ -14,7 +14,7 @@ public static class ChainRegistry
         6 => ModelDb.Card<Cards.FirstNearDeath>(),
         7 => ModelDb.Card<Cards.Unacknowledged>(),
         8 => ModelDb.Card<Cards.Absurd>(),
-        // 9 = 吾名堂吉诃德 —— 批 6c 未实现，暂时返回 null
+        9 => ModelDb.Card<Cards.MyNameIsDonQuixote>(),
         _ => null
     };
 }
