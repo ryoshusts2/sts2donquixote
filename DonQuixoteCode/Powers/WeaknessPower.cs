@@ -25,12 +25,12 @@ public sealed class WeaknessPower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    public override decimal ModifyDamageMultiplicative(
+    public override decimal ModifyDamageAdditive(
         Creature? target, decimal amount, ValueProp props,
         Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
     {
-        if (target != Owner) return 1m;
-        return 1m + 0.05m * Amount;
+        if (target != Owner) return 0m;
+        return Amount;
     }
 
     public override async Task AfterSideTurnStart(
