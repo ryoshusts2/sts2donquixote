@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -21,7 +22,6 @@ public sealed class RestStancePower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    // 喘息：进入无效果；退出 +1 费 + 抽 1
     public override async Task AfterRemoved(Creature oldOwner)
     {
         var ctx = new ThrowingPlayerChoiceContext();

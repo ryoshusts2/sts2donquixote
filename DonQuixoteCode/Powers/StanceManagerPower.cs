@@ -24,7 +24,6 @@ public sealed class StanceManagerPower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    // 战斗开始（被加入时）：强制进入僵持姿态
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         if (GetCurrentStance() == StanceType.None)
@@ -34,7 +33,6 @@ public sealed class StanceManagerPower : ModPowerTemplate
         }
     }
 
-    // 30% 修正：如果打出的卡姿态 ≠ 当前姿态，伤害 ×0.7
     public override decimal ModifyDamageMultiplicative(
         Creature? target, decimal amount, ValueProp props,
         Creature? dealer, CardModel? cardSource, CardPlay? cardPlay)
@@ -45,7 +43,6 @@ public sealed class StanceManagerPower : ModPowerTemplate
         return 0.7m;
     }
 
-    // 30% 修正：格挡 ×0.7
     public override decimal ModifyBlockMultiplicative(
         Creature target, decimal block, ValueProp props,
         CardModel? cardSource, CardPlay? cardPlay)
@@ -56,7 +53,6 @@ public sealed class StanceManagerPower : ModPowerTemplate
         return 0.7m;
     }
 
-    // 卡结算完成后：切换姿态
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Card.Owner != Owner.Player) return;
@@ -79,7 +75,6 @@ public sealed class StanceManagerPower : ModPowerTemplate
 
     private async Task SwitchStance(PlayerChoiceContext ctx, StanceType target)
     {
-        // 移除当前姿态（触发退出效果）
         switch (GetCurrentStance())
         {
             case StanceType.Charge:
@@ -100,7 +95,6 @@ public sealed class StanceManagerPower : ModPowerTemplate
                 break;
         }
 
-        // 添加新姿态（触发进入效果）
         switch (target)
         {
             case StanceType.Charge:

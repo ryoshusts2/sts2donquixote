@@ -1,4 +1,6 @@
+using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -27,7 +29,6 @@ public sealed class CounterStancePower : ModPowerTemplate
         await PowerCmd.Apply<DexterityPower>(ctx, Owner, 5m, Owner, null);
         await PowerCmd.Apply<WeakPower>(ctx, Owner, 1m, Owner, null);
 
-        // 反击补至 4 层
         var counter = Owner.GetPower<CounterPower>();
         if (counter == null)
         {
