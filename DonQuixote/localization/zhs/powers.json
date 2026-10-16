@@ -59,6 +59,9 @@
   "DON_QUIXOTE_POWER_CHARGE_STANCE_LOCK_POWER.title": "冲锋锁定",
   "DON_QUIXOTE_POWER_CHARGE_STANCE_LOCK_POWER.description": "本回合不会退出冲锋姿态。",
   "DON_QUIXOTE_POWER_CHARGE_STANCE_LOCK_POWER.smartDescription": "本回合不会退出冲锋姿态。",
+  "DON_QUIXOTE_POWER_CHARGE_STANCE_DISCOUNT_POWER.title": "冲锋降费",
+  "DON_QUIXOTE_POWER_CHARGE_STANCE_DISCOUNT_POWER.description": "本回合内，冲锋攻击牌费用 -1（最低 0）。",
+  "DON_QUIXOTE_POWER_CHARGE_STANCE_DISCOUNT_POWER.smartDescription": "本回合内，冲锋攻击牌费用 -1（最低 0）。",
   "DON_QUIXOTE_POWER_SLOW_MOVER_POWER.title": "动作太慢",
   "DON_QUIXOTE_POWER_SLOW_MOVER_POWER.description": "每回合开始时对所有敌人施加弱点。",
   "DON_QUIXOTE_POWER_SLOW_MOVER_POWER.smartDescription": "每回合开始时对所有敌人施加 {Amount} 层[gold]弱点[/gold]。",
@@ -80,7 +83,4 @@
   "DON_QUIXOTE_POWER_UNBROKEN_POWER.title": "不屈",
   "DON_QUIXOTE_POWER_UNBROKEN_POWER.description": "下个自己回合开始时回复等量生命值，然后移除。存在期间，每次受到致死伤害时，若层数 ≥ 10 则消耗 10 层免疫那次伤害。",
   "DON_QUIXOTE_POWER_UNBROKEN_POWER.smartDescription": "下个自己回合开始时回复 {Amount} 点生命值，然后移除。存在期间，每次受到致死伤害时，若层数 ≥ 10 则消耗 10 层免疫那次伤害。"
-"DON_QUIXOTE_POWER_CHARGE_STANCE_DISCOUNT_POWER.title": "冲锋降费",
-"DON_QUIXOTE_POWER_CHARGE_STANCE_DISCOUNT_POWER.description": "本回合内，冲锋攻击牌费用 -1（最低 0）。",
-"DON_QUIXOTE_POWER_CHARGE_STANCE_DISCOUNT_POWER.smartDescription": "本回合内，冲锋攻击牌费用 -1（最低 0）。"
 }
