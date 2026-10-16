@@ -19,6 +19,9 @@ public abstract class ChainLinkBase : ModCardTemplate
 
     public override bool GainsBlock => true;
 
+    // 用后从战斗中消耗（不进弃牌堆）
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
+
     public override CardAssetProfile AssetProfile => new(
         PortraitPath: $"{Entry.ResPath}/images/cards/{GetType().Name}.png");
 
@@ -35,17 +38,12 @@ public abstract class ChainLinkBase : ModCardTemplate
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
+        // 只记录「本卡已用」——具体移除 + 发牌延后到战斗结束
         var dream = Owner.Relics.FirstOrDefault(r => r is UnwillingDreamRelic) as UnwillingDreamRelic;
         if (dream != null)
         {
             UnwillingDreamRelic.PendingChainIndex[dream] = ChainIndex;
             UnwillingDreamRelic.PendingChainUpgraded[dream] = IsUpgraded;
-        }
-
-        var deckCard = this.DeckVersion;
-        if (deckCard != null)
-        {
-            await CardPileCmd.RemoveFromDeck(deckCard, showPreview: false);
         }
     }
 

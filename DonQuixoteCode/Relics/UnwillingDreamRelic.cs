@@ -63,23 +63,35 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
             await IncreaseAsync(-3);
         }
 
-        int next = PendingChainIndex[this];
-        if (next > 0)
-        {
-            PendingChainIndex[this] = 0;
-            bool upgraded = PendingChainUpgraded[this];
-            PendingChainUpgraded[this] = false;
+        int currentIndex = PendingChainIndex[this];
+        if (currentIndex <= 0) return;
 
-            var canonical = Chains.ChainRegistry.GetCardByIndex(next);
-            if (canonical != null)
+        PendingChainIndex[this] = 0;
+        bool upgraded = PendingChainUpgraded[this];
+        PendingChainUpgraded[this] = false;
+
+        // 1. 从 Deck 移除「刚用掉的这张」（ChainRegistry[currentIndex] 对应卡类的 Id）
+        var usedTemplate = Chains.ChainRegistry.GetCardByIndex(currentIndex);
+        if (usedTemplate != null)
+        {
+            var deckCards = PileType.Deck.GetPile(Owner).Cards.ToList();
+            var toRemove = deckCards.Where(c => c.Id.Equals(usedTemplate.Id)).ToList();
+            if (toRemove.Count > 0)
             {
-                var newCard = Owner.RunState.CreateCard(canonical, Owner);
-                if (upgraded)
-                {
-                    CardCmd.Upgrade(newCard);
-                }
-                await CardPileCmd.Add(newCard, PileType.Deck);
+                await CardPileCmd.RemoveFromDeck(toRemove);
             }
+        }
+
+        // 2. 发下一张到 Deck（ChainRegistry[currentIndex + 1]）
+        var nextTemplate = Chains.ChainRegistry.GetCardByIndex(currentIndex + 1);
+        if (nextTemplate != null)
+        {
+            var newCard = Owner.RunState.CreateCard(nextTemplate, Owner);
+            if (upgraded)
+            {
+                CardCmd.Upgrade(newCard);
+            }
+            await CardPileCmd.Add(newCard, CardPile.Get(PileType.Deck, Owner));
         }
     }
 
