@@ -47,7 +47,6 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
         return Task.CompletedTask;
     }
 
-    // 战斗胜利：当前生命 > 10 → 计数 -3
     public override async Task AfterCombatVictory(CombatRoom room)
     {
         if (Locked[this]) return;
@@ -57,7 +56,6 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
         }
     }
 
-    // 死亡：+20（仅多人模式生效——单人模式死亡即游戏结束）
     public override async Task AfterDeath(
         PlayerChoiceContext choiceContext, Creature creature,
         bool wasRemovalPrevented, float deathAnimLength)
@@ -68,7 +66,6 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
         await IncreaseAsync(20);
     }
 
-    // 外部调用：英雄的战利品获得废料时
     public void ProcessScrapGained(int amount)
     {
         if (Locked[this]) return;
@@ -77,7 +74,6 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
         DynamicVars["DreamCount"].BaseValue = newValue;
     }
 
-    // 失去粗糙废料遗物时触发
     private void OnRelicRemoved(RelicModel relic)
     {
         if (Locked[this]) return;
@@ -105,14 +101,12 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
         if (Locked[this]) return;
         Locked[this] = true;
 
-        // 失去英雄的战利品
         var heroRelic = Owner.Relics.FirstOrDefault(r => r is DonQuixoteRelic);
         if (heroRelic != null)
         {
             await RelicCmd.Remove(heroRelic);
         }
 
-        // 获得「自我？」
         var selfRelic = ModelDb.Relic<SelfRelic>().ToMutable();
         await RelicCmd.Obtain(selfRelic, Owner, Owner.Relics.Count);
     }
