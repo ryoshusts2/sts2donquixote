@@ -42,10 +42,9 @@ public sealed class DauntlessPower : ModPowerTemplate
     // 幻想坐骑：每次无畏层数增加时（含叠层）→ +5 残废
     public override async Task AfterPowerAmountChanged(
         PlayerChoiceContext choiceContext, PowerModel power,
-        decimal amount, Creature? target, Creature? applier, CardModel? cardSource)
+        decimal amount, Creature? applier, CardModel? cardSource)
     {
         if (power != this) return;
-        if (target != Owner) return;
         if (amount <= 0) return;
 
         var mount = Owner.Player?.Relics.Any(r => r is FantasyMountDiomedes) == true;
