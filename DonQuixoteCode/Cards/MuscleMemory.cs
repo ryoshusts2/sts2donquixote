@@ -26,17 +26,14 @@ public sealed class MuscleMemory : ModCardTemplate, IStanceCard, IPhase2Card
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        decimal amount = IsUpgraded ? 8m : 5m;
         await CreatureCmd.TriggerAnim(Owner.Creature, "PowerUp", Owner.Character.PowerUpAnimDelay);
         await PowerCmd.Apply<MuscleMemoryPower>(
-            choiceContext, Owner.Creature, 5m, Owner.Creature, this);
+            choiceContext, Owner.Creature, amount, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
-        // 升级效果通过 MuscleMemoryPower 的「额外值」体现
-        // 但 Power 已挂上，无法再改 Amount。
-        // 改为：升级时用 8m
-        // 这需要在 OnPlay 里判断 IsUpgraded
-        // 简化：升级后走另一条路径
+        // 升级效果由 OnPlay 里的 IsUpgraded 判断实现
     }
 }
