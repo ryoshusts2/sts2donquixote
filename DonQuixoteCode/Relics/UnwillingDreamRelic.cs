@@ -29,11 +29,9 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
     public static readonly SavedAttachedState<UnwillingDreamRelic, bool> Locked =
         new("Locked", _ => false);
 
-    // 链式卡进度：0 = 无；1..9 = 待发的链式卡编号
     public static readonly SavedAttachedState<UnwillingDreamRelic, int> PendingChainIndex =
         new("PendingChainIndex", _ => 0);
 
-    // 链式卡进度：升级传递
     public static readonly SavedAttachedState<UnwillingDreamRelic, bool> PendingChainUpgraded =
         new("PendingChainUpgraded", _ => false);
 
@@ -72,10 +70,9 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
             bool upgraded = PendingChainUpgraded[this];
             PendingChainUpgraded[this] = false;
 
-            var id = Chains.ChainRegistry.GetIdByIndex(next);
-            if (id.HasValue)
+            var canonical = Chains.ChainRegistry.GetCardByIndex(next);
+            if (canonical != null)
             {
-                var canonical = ModelDb.GetById<CardModel>(id.Value);
                 var newCard = Owner.RunState.CreateCard(canonical, Owner);
                 if (upgraded)
                 {
