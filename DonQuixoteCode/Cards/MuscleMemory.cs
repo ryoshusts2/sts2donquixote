@@ -1,6 +1,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using DonQuixote.Characters;
 using DonQuixote.Phases;
 using DonQuixote.Powers;
@@ -34,6 +35,5 @@ public sealed class MuscleMemory : ModCardTemplate, IStanceCard, IPhase2Card
 
     protected override void OnUpgrade()
     {
-        // 升级效果由 OnPlay 里的 IsUpgraded 判断实现
     }
 }
