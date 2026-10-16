@@ -31,11 +31,15 @@ public sealed class IAmAKnight : ModCardTemplate
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+
+        if (IsUpgraded)
+        {
+            await CardPileCmd.Draw(choiceContext, 1m, Owner);
+        }
     }
 
     protected override void OnUpgrade()
     {
-        // 升级：额外抽一张牌（通过添加 Keywords 或专用 var 实现）
-        // 直接加一个 1 次抽牌标记，OnPlay 里检查
+        // 升级效果通过 OnPlay 里的 IsUpgraded 判断实现
     }
 }

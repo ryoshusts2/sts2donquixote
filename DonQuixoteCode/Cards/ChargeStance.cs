@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
 using DonQuixote.Characters;
+using DonQuixote.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -42,9 +43,17 @@ public sealed class ChargeStance : ModCardTemplate
         {
             await CardPileCmd.Add(card, PileType.Hand);
         }
+
+        // 升级：本回合冲锋攻击卡费用 -1
+        if (IsUpgraded)
+        {
+            await PowerCmd.Apply<ChargeStanceDiscountPower>(
+                choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+        }
     }
 
     protected override void OnUpgrade()
     {
+        // 升级效果通过 OnPlay 里的 IsUpgraded 判断实现
     }
 }
