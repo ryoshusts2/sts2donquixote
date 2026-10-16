@@ -33,19 +33,15 @@ public abstract class ChainLinkBase : ModCardTemplate
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // 1. 获得 20 格挡
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
-        // 2. 记录「下一张要发的卡」（升级传递）
         var dream = Owner.Relics.FirstOrDefault(r => r is UnwillingDreamRelic) as UnwillingDreamRelic;
         if (dream != null)
         {
-            UnwillingDreamRelic.PendingChainIndex[dream] = ChainIndex + 1;
+            UnwillingDreamRelic.PendingChainIndex[dream] = ChainIndex;
             UnwillingDreamRelic.PendingChainUpgraded[dream] = IsUpgraded;
         }
 
-        // 3. 用后从卡组移除
-        //    用 DeckVersion（卡组里的原始版本），而不是 this（打出的实例）
         var deckCard = this.DeckVersion;
         if (deckCard != null)
         {
