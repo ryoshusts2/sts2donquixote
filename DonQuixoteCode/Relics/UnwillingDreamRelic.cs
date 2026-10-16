@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
@@ -64,7 +65,6 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
             await IncreaseAsync(-3);
         }
 
-        // 处理链式卡的发牌
         int next = PendingChainIndex[this];
         if (next > 0)
         {
@@ -72,16 +72,16 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
             bool upgraded = PendingChainUpgraded[this];
             PendingChainUpgraded[this] = false;
 
-            var targetType = Chains.ChainRegistry.GetTypeByIndex(next);
-            if (targetType != null)
+            var id = Chains.ChainRegistry.GetIdByIndex(next);
+            if (id.HasValue)
             {
-                var canonical = ModelDb.GetById<CardModel>(ModelDb.GetId<CardModel>(targetType));
+                var canonical = ModelDb.GetById<CardModel>(id.Value);
                 var newCard = Owner.RunState.CreateCard(canonical, Owner);
                 if (upgraded)
                 {
                     CardCmd.Upgrade(newCard);
                 }
-                await CardPileCmd.Add(newCard, PileType.Deck, CardPilePosition.Bottom, null);
+                await CardPileCmd.Add(newCard, PileType.Deck);
             }
         }
     }
