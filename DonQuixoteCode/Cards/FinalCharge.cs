@@ -30,7 +30,6 @@ public sealed class FinalCharge : ModCardTemplate, IStanceCard, IPhase2Card
     {
     }
 
-    // 只做「消耗」，不做「加牌」——加牌放到 AfterCardPlayed
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var allCards = new List<CardModel>();
@@ -44,14 +43,14 @@ public sealed class FinalCharge : ModCardTemplate, IStanceCard, IPhase2Card
         }
     }
 
-    // 卡视觉打完后，再填满手牌
+    // 卡视觉打完后才填手牌
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Card != this) return;
 
         while (PileType.Hand.GetPile(Owner).Cards.Count < CardPile.MaxCardsInHand)
         {
-            var newCard = Owner.CombatState.CreateCard<ChargeTheGiant>(Owner);
+            var newCard = CombatState.CreateCard<ChargeTheGiant>(Owner);
             await CardPileCmd.AddGeneratedCardToCombat(newCard, PileType.Hand, Owner);
         }
     }

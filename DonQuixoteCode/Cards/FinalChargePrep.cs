@@ -27,8 +27,8 @@ public sealed class FinalChargePrep : ModCardTemplate, IStanceCard, IPhase2Card
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        // 关键：战斗内加卡用 CombatState.CreateCard
-        var card = Owner.CombatState.CreateCard<FinalCharge>(Owner);
+        // 战斗内加卡：用本卡的 CombatState
+        var card = CombatState.CreateCard<FinalCharge>(Owner);
         await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, Owner);
 
         await PowerCmd.Apply<ChargeStanceLockPower>(
