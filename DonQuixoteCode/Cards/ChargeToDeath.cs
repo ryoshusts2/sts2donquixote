@@ -43,6 +43,6 @@ public sealed class ChargeToDeath : ModCardTemplate, IStanceCard, IPhase2Card
 
     protected override void OnUpgrade()
     {
-        Keywords.Remove(CardKeyword.Exhaust);
+        RemoveKeyword(CardKeyword.Exhaust);
     }
 }
