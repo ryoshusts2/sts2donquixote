@@ -102,8 +102,11 @@ public sealed class StanceManagerPower : ModPowerTemplate
                 break;
 
             case StanceType.Rest:
-                await PlayerCmd.GainEnergy(1, Owner);
-                await CardPileCmd.Draw(ctx, 1m, Owner);
+                if (Owner.Player != null)
+                {
+                    await PlayerCmd.GainEnergy(1, Owner.Player);
+                    await CardPileCmd.Draw(ctx, 1m, Owner.Player);
+                }
                 var rest = Owner.GetPower<RestStancePower>();
                 if (rest != null) await PowerCmd.Remove(rest);
                 break;
