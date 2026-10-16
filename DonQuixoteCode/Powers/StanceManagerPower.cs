@@ -58,6 +58,9 @@ public sealed class StanceManagerPower : ModPowerTemplate
         if (cardPlay.Card.Owner != Owner.Player) return;
         if (cardPlay.Card is not IStanceCard sc) return;
 
+        // 姿态锁定：本回合不切换姿态
+        if (Owner.GetPower<ChargeStanceLockPower>() != null) return;
+
         var current = GetCurrentStance();
         if (sc.Stance == current) return;
 
