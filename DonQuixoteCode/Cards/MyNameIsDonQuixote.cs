@@ -30,6 +30,8 @@ public sealed class MyNameIsDonQuixote : ModCardTemplate
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        Godot.GD.Print("[DonQuixote] ===== 吾名堂吉诃德 打出 =====");
+
         // 1. 获得额外回合
         await PowerCmd.Apply<ExtraTurnPower>(
             choiceContext, Owner.Creature, 1m, Owner.Creature, this);
@@ -51,51 +53,76 @@ public sealed class MyNameIsDonQuixote : ModCardTemplate
             await CardPileCmd.RemoveFromDeck(deckCards);
         }
 
-        // 4. 加入 20 张二阶段固定卡到卡组
-        var phase2Cards = new List<CardModel>();
-        for (int i = 0; i < 4; i++) phase2Cards.Add(Owner.RunState.CreateCard<FantasyCharge>(Owner));
-        for (int i = 0; i < 4; i++) phase2Cards.Add(Owner.RunState.CreateCard<MomentumCounter>(Owner));
-        phase2Cards.Add(Owner.RunState.CreateCard<IronCavalryTrample>(Owner));
-        phase2Cards.Add(Owner.RunState.CreateCard<ChargeToDeath>(Owner));
-        for (int i = 0; i < 2; i++) phase2Cards.Add(Owner.RunState.CreateCard<SeekGiant>(Owner));
-        phase2Cards.Add(Owner.RunState.CreateCard<YouShallNotBlockMe>(Owner));
-        for (int i = 0; i < 2; i++) phase2Cards.Add(Owner.RunState.CreateCard<DuelMelody>(Owner));
-        phase2Cards.Add(Owner.RunState.CreateCard<CompleteTheQuest>(Owner));
-        phase2Cards.Add(Owner.RunState.CreateCard<PourOutWrath>(Owner));
-        for (int i = 0; i < 2; i++) phase2Cards.Add(Owner.RunState.CreateCard<ActOnOpportunity>(Owner));
-        phase2Cards.Add(Owner.RunState.CreateCard<FinalChargePrep>(Owner));
+        // 4. 加入 20 张二阶段卡（原版正确写法：Deck 用 RunState.CreateCard，Draw 用 CombatState.CreateCard）
+        var deckPile = CardPile.Get(PileType.Deck, Owner);
+        var drawPile = CardPile.Get(PileType.Draw, Owner);
 
-        foreach (var c in phase2Cards)
+        for (int i = 0; i < 4; i++)
         {
-            await CardPileCmd.Add(c, PileType.Deck);
+            await CardPileCmd.Add(RunState.CreateCard<FantasyCharge>(Owner), deckPile);
+            await CardPileCmd.Add(CombatState.CreateCard<FantasyCharge>(Owner), drawPile);
         }
+        for (int i = 0; i < 4; i++)
+        {
+            await CardPileCmd.Add(RunState.CreateCard<MomentumCounter>(Owner), deckPile);
+            await CardPileCmd.Add(CombatState.CreateCard<MomentumCounter>(Owner), drawPile);
+        }
+        await CardPileCmd.Add(RunState.CreateCard<IronCavalryTrample>(Owner), deckPile);
+        await CardPileCmd.Add(CombatState.CreateCard<IronCavalryTrample>(Owner), drawPile);
+        await CardPileCmd.Add(RunState.CreateCard<ChargeToDeath>(Owner), deckPile);
+        await CardPileCmd.Add(CombatState.CreateCard<ChargeToDeath>(Owner), drawPile);
+        for (int i = 0; i < 2; i++)
+        {
+            await CardPileCmd.Add(RunState.CreateCard<SeekGiant>(Owner), deckPile);
+            await CardPileCmd.Add(CombatState.CreateCard<SeekGiant>(Owner), drawPile);
+        }
+        await CardPileCmd.Add(RunState.CreateCard<YouShallNotBlockMe>(Owner), deckPile);
+        await CardPileCmd.Add(CombatState.CreateCard<YouShallNotBlockMe>(Owner), drawPile);
+        for (int i = 0; i < 2; i++)
+        {
+            await CardPileCmd.Add(RunState.CreateCard<DuelMelody>(Owner), deckPile);
+            await CardPileCmd.Add(CombatState.CreateCard<DuelMelody>(Owner), drawPile);
+        }
+        await CardPileCmd.Add(RunState.CreateCard<CompleteTheQuest>(Owner), deckPile);
+        await CardPileCmd.Add(CombatState.CreateCard<CompleteTheQuest>(Owner), drawPile);
+        await CardPileCmd.Add(RunState.CreateCard<PourOutWrath>(Owner), deckPile);
+        await CardPileCmd.Add(CombatState.CreateCard<PourOutWrath>(Owner), drawPile);
+        for (int i = 0; i < 2; i++)
+        {
+            await CardPileCmd.Add(RunState.CreateCard<ActOnOpportunity>(Owner), deckPile);
+            await CardPileCmd.Add(CombatState.CreateCard<ActOnOpportunity>(Owner), drawPile);
+        }
+        await CardPileCmd.Add(RunState.CreateCard<FinalChargePrep>(Owner), deckPile);
+        await CardPileCmd.Add(CombatState.CreateCard<FinalChargePrep>(Owner), drawPile);
+
+        Godot.GD.Print("[DonQuixote] Added 20 cards to Deck + Draw");
 
         // 5. 替换英雄的战利品 → 英雄的殊荣
         var heroRelic = Owner.Relics.FirstOrDefault(r => r is DonQuixoteRelic);
-        if (heroRelic != null)
-        {
-            await RelicCmd.Remove(heroRelic);
-        }
-        var glory = ModelDb.Relic<HeroGloryRelic>().ToMutable();
-        await RelicCmd.Obtain(glory, Owner, Owner.Relics.Count);
+        if (heroRelic != null) await RelicCmd.Remove(heroRelic);
+        await RelicCmd.Obtain(ModelDb.Relic<HeroGloryRelic>().ToMutable(), Owner, Owner.Relics.Count);
 
         // 6. 替换不愿清醒的梦 → 不会醒来的梦
         var dreamRelic = Owner.Relics.FirstOrDefault(r => r is UnwillingDreamRelic);
-        if (dreamRelic != null)
-        {
-            await RelicCmd.Remove(dreamRelic);
-        }
-        var neverWake = ModelDb.Relic<NeverWakeDreamRelic>().ToMutable();
-        await RelicCmd.Obtain(neverWake, Owner, Owner.Relics.Count);
+        if (dreamRelic != null) await RelicCmd.Remove(dreamRelic);
+        await RelicCmd.Obtain(ModelDb.Relic<NeverWakeDreamRelic>().ToMutable(), Owner, Owner.Relics.Count);
 
         // 7. 失去所有粗糙废料遗物
         var roughScraps = Owner.Relics
             .Where(r => r.Id.Entry.StartsWith("DON_QUIXOTE_RELIC_ROUGH_SCRAP"))
             .ToList();
-        foreach (var r in roughScraps)
-        {
-            await RelicCmd.Remove(r);
-        }
+        foreach (var r in roughScraps) await RelicCmd.Remove(r);
+
+        // 8. 获得 7 个幻想遗物
+        await RelicCmd.Obtain(ModelDb.Relic<FantasySwordHrunting>().ToMutable(), Owner, Owner.Relics.Count);
+        await RelicCmd.Obtain(ModelDb.Relic<FantasyShieldAegis>().ToMutable(), Owner, Owner.Relics.Count);
+        await RelicCmd.Obtain(ModelDb.Relic<FantasyHelmetMambrino>().ToMutable(), Owner, Owner.Relics.Count);
+        await RelicCmd.Obtain(ModelDb.Relic<FantasyArmorAchilles>().ToMutable(), Owner, Owner.Relics.Count);
+        await RelicCmd.Obtain(ModelDb.Relic<FantasySpearLonginus>().ToMutable(), Owner, Owner.Relics.Count);
+        await RelicCmd.Obtain(ModelDb.Relic<FantasyMountDiomedes>().ToMutable(), Owner, Owner.Relics.Count);
+        await RelicCmd.Obtain(ModelDb.Relic<FantasyIdentityCrimsonKnight>().ToMutable(), Owner, Owner.Relics.Count);
+
+        Godot.GD.Print("[DonQuixote] ===== 吾名堂吉诃德 完成 =====");
     }
 
     protected override void OnUpgrade()
