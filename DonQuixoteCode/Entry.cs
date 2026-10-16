@@ -1,4 +1,5 @@
 using System.Reflection;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
 using STS2RitsuLib;
@@ -21,17 +22,23 @@ public partial class Entry
     {
         var assembly = Assembly.GetExecutingAssembly();
 
-        // 以下示例默认已经在 Entry.Initialize() 中调用了
-        // RitsuLibFramework.EnsureGodotScriptsRegistered(...) 和
-        // ModTypeDiscoveryHub.RegisterModAssembly(...)，否则自动注册不会生效。
-        //
-        // Godot C# 脚本注册只负责让 pck 中的脚本类型能被 Godot 找到。
-        // 这一步和 RitsuLib 的内容自动注册不是同一件事，两个都需要保留。
+        // Godot C# 脚本注册
         RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
 
-        // 自动注册扫描会读取当前程序集里的 RegisterCard/RegisterRelic 等 attribute。
-        // 新增内容类后，只要 attribute 写对，通常不需要在入口里手动逐个注册。
+        // RitsuLib 内容自动注册（扫描 [RegisterCard] / [RegisterRelic] 等）
         ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
+
+        // Harmony 补丁应用（关键：应用 CardPoolPatch / CraftPatches 等）
+        try
+        {
+            var harmony = new Harmony(ModId);
+            harmony.PatchAll(assembly);
+            Logger.Info("DonQuixote Harmony patches applied.");
+        }
+        catch (System.Exception ex)
+        {
+            Logger.Error($"DonQuixote Harmony patch failed: {ex.Message}\n{ex.StackTrace}");
+        }
 
         Logger.Info("DonQuixote initialized.");
     }
