@@ -28,6 +28,14 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
     public static readonly SavedAttachedState<UnwillingDreamRelic, bool> Locked =
         new("Locked", _ => false);
 
+    // 链式卡进度：0 = 无；1..9 = 待发的链式卡编号
+    public static readonly SavedAttachedState<UnwillingDreamRelic, int> PendingChainIndex =
+        new("PendingChainIndex", _ => 0);
+
+    // 链式卡进度：升级传递
+    public static readonly SavedAttachedState<UnwillingDreamRelic, bool> PendingChainUpgraded =
+        new("PendingChainUpgraded", _ => false);
+
     public override RelicRarity Rarity => RelicRarity.Starter;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -50,9 +58,31 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
     public override async Task AfterCombatVictory(CombatRoom room)
     {
         if (Locked[this]) return;
+
         if (Owner.Creature.CurrentHp > 10)
         {
             await IncreaseAsync(-3);
+        }
+
+        // 处理链式卡的发牌
+        int next = PendingChainIndex[this];
+        if (next > 0)
+        {
+            PendingChainIndex[this] = 0;
+            bool upgraded = PendingChainUpgraded[this];
+            PendingChainUpgraded[this] = false;
+
+            var targetType = Chains.ChainRegistry.GetTypeByIndex(next);
+            if (targetType != null)
+            {
+                var canonical = ModelDb.GetById<CardModel>(ModelDb.GetId<CardModel>(targetType));
+                var newCard = Owner.RunState.CreateCard(canonical, Owner);
+                if (upgraded)
+                {
+                    CardCmd.Upgrade(newCard);
+                }
+                await CardPileCmd.Add(newCard, PileType.Deck, CardPilePosition.Bottom, null);
+            }
         }
     }
 
