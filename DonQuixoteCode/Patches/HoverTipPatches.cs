@@ -2,14 +2,15 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models; // <--- 修复了这里
+using MegaCrit.Sts2.Core.Models;
 using DonQuixote.Cards;
 using DonQuixote.Powers;
 using DonQuixote.Stance;
 
 namespace DonQuixote.Patches;
 
-[HarmonyPatch(typeof(CardModel), nameof(CardModel.ExtraHoverTips), MethodType.Getter)]
+// 改为拦截 HoverTips 属性，绕过 ExtraHoverTips 的访问权限问题
+[HarmonyPatch(typeof(CardModel), nameof(CardModel.HoverTips), MethodType.Getter)]
 public static class HoverTipPatches
 {
     [HarmonyPostfix]
