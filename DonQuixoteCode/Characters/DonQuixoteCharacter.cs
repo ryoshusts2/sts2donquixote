@@ -34,7 +34,7 @@ public sealed class DonQuixoteCharacter : ModCharacterTemplate<DonQuixoteCardPoo
     public override int StartingHp => 70;
     public override int StartingGold => 99;
 
-    // CharacterAssetProfile 按类别拆分。你只写需要替换的部分，其他字段会保留回退。
+    // CharacterAssetProfile 按类别拆分。你只写需要替换的部分 ，其他字段会保留回退。
     public override CharacterAssetProfile AssetProfile => new(
         Scenes: new CharacterSceneAssetSet(
             VisualsPath: CharacterScenePath,
@@ -44,6 +44,7 @@ public sealed class DonQuixoteCharacter : ModCharacterTemplate<DonQuixoteCardPoo
         Ui: new CharacterUiAssetSet(
             IconTexturePath: $"{ImageRoot}/DonQuixote_character_icon.png",
             IconOutlineTexturePath: $"{ImageRoot}/DonQuixote_character_icon_outline.png",
+            IconPath: $"{SceneRoot}/DonQuixote_icon.tscn", // <--- 新增这一行，局内左上角头像
             CharacterSelectBgPath: CharacterSelectBgScenePath,
             CharacterSelectIconPath: $"{ImageRoot}/DonQuixote_character_select.png",
             CharacterSelectLockedIconPath: $"{ImageRoot}/DonQuixote_character_select_locked.png",
@@ -53,7 +54,7 @@ public sealed class DonQuixoteCharacter : ModCharacterTemplate<DonQuixoteCardPoo
     public override string? PlaceholderCharacterId => "ironclad";
     // 如果你的人物不需要时间线小故事，加上这句。
     public override bool RequiresEpochAndTimeline => false;
-    // 攻击和施法动画延迟，以对齐动画。静态占位资源不需要延迟。
+    // 攻击和施法动画延迟，以对齐动画。静态占位资源不需要延迟 。
     public override float AttackAnimDelay => 0f;
     public override float CastAnimDelay => 0f;
 
