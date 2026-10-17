@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Models; // <--- 修复了这里
 using DonQuixote.Cards;
 using DonQuixote.Powers;
 using DonQuixote.Stance;
@@ -62,7 +62,7 @@ public static class HoverTipPatches
         if (__instance is MuscleMemory) extraTips.Add(HoverTipFactory.FromPower<MuscleMemoryPower>());
         if (__instance is SeekGiant) extraTips.Add(HoverTipFactory.FromPower<DauntlessPower>());
 
-        // 2. 动态挂载姿态弹窗（凡是实现了 IStanceCard 的卡，自动挂载对应姿态）
+        // 2. 动态挂载姿态弹窗
         if (__instance is IStanceCard stanceCard)
         {
             switch (stanceCard.Stance)
@@ -82,7 +82,7 @@ public static class HoverTipPatches
             }
         }
 
-        // 3. 简单去重，防止原版已有的和自定义的重复
+        // 3. 去重
         var uniqueTips = new List<IHoverTip>();
         foreach (var tip in extraTips)
         {
