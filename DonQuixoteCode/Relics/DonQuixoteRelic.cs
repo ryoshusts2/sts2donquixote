@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Rewards;
 using DonQuixote.Characters;
 using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Interactions.RightClick;
 using STS2RitsuLib.Scaffolding.Content;
 using STS2RitsuLib.Utils;
 
@@ -16,7 +19,7 @@ namespace DonQuixote.Relics;
 
 [RegisterRelic(typeof(DonQuixoteRelicPool))]
 [RegisterCharacterStarterRelic(typeof(DonQuixoteCharacter))]
-public sealed class DonQuixoteRelic : ModRelicTemplate
+public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
 {
     public static readonly SavedAttachedState<DonQuixoteRelic, int> ScrapCount =
         new("ScrapCount", _ => 0);
@@ -42,6 +45,40 @@ public sealed class DonQuixoteRelic : ModRelicTemplate
         ScrapCount[this] = System.Math.Max(0, ScrapCount[this] - amount);
         DynamicVars["ScrapCount"].BaseValue = ScrapCount[this];
     }
+
+    // ================= 右键交互逻辑 =================
+
+    public bool CanHandleRightClickLocal(ModRightClickContext context)
+    {
+        // 只有废料 >= 5 才能触发右键
+        return HasEnoughScrap(5);
+    }
+
+    public async Task OnRightClick(ModRightClickExecutionContext context)
+    {
+        // 再检查一次，防止并发或状态不同步
+        if (!HasEnoughScrap(5)) return;
+
+        SpendScrap(5);
+
+        var pool = new List<RelicModel>
+        {
+            ModelDb.Relic<RoughScrapSword>().ToMutable(),
+            ModelDb.Relic<RoughScrapShield>().ToMutable(),
+            ModelDb.Relic<RoughScrapHelmet>().ToMutable(),
+            ModelDb.Relic<RoughScrapPlate>().ToMutable(),
+            ModelDb.Relic<RoughScrapLance>().ToMutable(),
+            ModelDb.Relic<RoughScrapHorse>().ToMutable(),
+        };
+
+        var chosen = Owner.PlayerRng.Rewards.NextItem(pool);
+        if (chosen != null)
+        {
+            await RelicCmd.Obtain(chosen, Owner, Owner.Relics.Count);
+        }
+    }
+
+    // ================= 战斗及房间逻辑 =================
 
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
     {
