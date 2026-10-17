@@ -1,7 +1,6 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips; // <--- 新增
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using DonQuixote.Characters;
@@ -29,12 +28,6 @@ public sealed class FantasyCharge : ModCardTemplate, IStanceCard, IPhase2Card
 
     protected override HashSet<CardTag> CanonicalTags => new() { CardTag.Strike };
 
-    // 悬停提示：放大会弹出「残废」和「冲锋姿态」的解释
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [
-        HoverTipFactory.FromPower<CripplePower>(),
-        HoverTipFactory.FromPower<ChargeStancePower>() // 冲锋姿态的弹窗
-    ];
-
     public FantasyCharge() : base(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy, true)
     {
     }
@@ -55,7 +48,7 @@ public sealed class FantasyCharge : ModCardTemplate, IStanceCard, IPhase2Card
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3m);
-        DynamicVars["CripplePower"].UpgradeValueBy(1m);
+        DynamicVars.Damage.UpgradeBy(3m);
+        DynamicVars["CripplePower"].UpgradeBy(1m);
     }
 }
