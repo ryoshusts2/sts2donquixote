@@ -48,7 +48,7 @@ public sealed class FantasyCharge : ModCardTemplate, IStanceCard, IPhase2Card
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeBy(3m);
-        DynamicVars["CripplePower"].UpgradeBy(1m);
+        DynamicVars.Damage.UpgradeValueBy(3m); // 修复为 UpgradeValueBy
+        DynamicVars["CripplePower"].UpgradeValueBy(1m); // 修复为 UpgradeValueBy
     }
 }

@@ -9,7 +9,6 @@ using DonQuixote.Stance;
 
 namespace DonQuixote.Patches;
 
-// 改为拦截 HoverTips 属性，绕过 ExtraHoverTips 的访问权限问题
 [HarmonyPatch(typeof(CardModel), nameof(CardModel.HoverTips), MethodType.Getter)]
 public static class HoverTipPatches
 {
@@ -83,16 +82,7 @@ public static class HoverTipPatches
             }
         }
 
-        // 3. 去重
-        var uniqueTips = new List<IHoverTip>();
-        foreach (var tip in extraTips)
-        {
-            if (tip != null && !uniqueTips.Any(t => t.Title.Equals(tip.Title)))
-            {
-                uniqueTips.Add(tip);
-            }
-        }
-
-        __result = uniqueTips;
+        // 直接返回，不强求去重，防止报错
+        __result = extraTips;
     }
 }
