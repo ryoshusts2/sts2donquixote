@@ -29,12 +29,6 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
     public static readonly SavedAttachedState<UnwillingDreamRelic, bool> Locked =
         new("Locked", _ => false);
 
-    public static readonly SavedAttachedState<UnwillingDreamRelic, int> PendingChainIndex =
-        new("PendingChainIndex", _ => 0);
-
-    public static readonly SavedAttachedState<UnwillingDreamRelic, bool> PendingChainUpgraded =
-        new("PendingChainUpgraded", _ => false);
-
     public override RelicRarity Rarity => RelicRarity.Starter;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -62,37 +56,7 @@ public sealed class UnwillingDreamRelic : ModRelicTemplate
         {
             await IncreaseAsync(-3);
         }
-
-        int currentIndex = PendingChainIndex[this];
-        if (currentIndex <= 0) return;
-
-        PendingChainIndex[this] = 0;
-        bool upgraded = PendingChainUpgraded[this];
-        PendingChainUpgraded[this] = false;
-
-        // 1. 从 Deck 移除「刚用掉的这张」（ChainRegistry[currentIndex] 对应卡类的 Id）
-        var usedTemplate = Chains.ChainRegistry.GetCardByIndex(currentIndex);
-        if (usedTemplate != null)
-        {
-            var deckCards = PileType.Deck.GetPile(Owner).Cards.ToList();
-            var toRemove = deckCards.Where(c => c.Id.Equals(usedTemplate.Id)).ToList();
-            if (toRemove.Count > 0)
-            {
-                await CardPileCmd.RemoveFromDeck(toRemove);
-            }
-        }
-
-        // 2. 发下一张到 Deck（ChainRegistry[currentIndex + 1]）
-        var nextTemplate = Chains.ChainRegistry.GetCardByIndex(currentIndex + 1);
-        if (nextTemplate != null)
-        {
-            var newCard = Owner.RunState.CreateCard(nextTemplate, Owner);
-            if (upgraded)
-            {
-                CardCmd.Upgrade(newCard);
-            }
-            await CardPileCmd.Add(newCard, CardPile.Get(PileType.Deck, Owner));
-        }
+        // 链式卡的增删逻辑已经移到了 ChainLinkBase 里，这里不再处理！
     }
 
     public override async Task AfterDeath(

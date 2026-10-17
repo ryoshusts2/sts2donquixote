@@ -23,7 +23,8 @@ public sealed class PierceThrough : ModCardTemplate, IStanceCard, IPhase2Card
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(7m, ValueProp.Move)
+        new DamageVar(7m, ValueProp.Move),
+        new DynamicVar("BonusHits", 0m) // 新增一个变量来控制额外次数
     ];
 
     protected override HashSet<CardTag> CanonicalTags => new() { CardTag.Strike };
@@ -36,8 +37,8 @@ public sealed class PierceThrough : ModCardTemplate, IStanceCard, IPhase2Card
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-        int hits = ResolveEnergyXValue();
-        if (IsUpgraded) hits += 2;
+        // 基础次数(X) + 升级带来的额外次数
+        int hits = ResolveEnergyXValue() + DynamicVars["BonusHits"].IntValue;
         if (hits <= 0) return;
 
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
@@ -49,6 +50,7 @@ public sealed class PierceThrough : ModCardTemplate, IStanceCard, IPhase2Card
 
     protected override void OnUpgrade()
     {
-        // 升级效果由 OnPlay 里的 IsUpgraded 判断实现
+        // 升级时把 BonusHits 增加 2
+        DynamicVars["BonusHits"].UpgradeValueBy(2m);
     }
 }

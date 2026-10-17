@@ -53,14 +53,33 @@ public sealed class UnbrokenPower : ModPowerTemplate
             choiceContext, this, -10, null, null);
     }
 
-    // 下个自己回合开始：回复等量生命，然后移除
+    // 下个自己回合开始：回复等量生命。若溢出，则获得差值的不屈。
     public override async Task AfterSideTurnStart(
         CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
     {
         if (!participants.Contains(Owner)) return;
         if (Amount <= 0) return;
 
-        await CreatureCmd.Heal(Owner, Amount);
+        // 1. 计算当前已损失的生命值
+        decimal lostHp = Owner.MaxHp - Owner.CurrentHp;
+        decimal healAmount = Amount;
+
+        // 2. 执行回血，并移除当前的不屈
+        await CreatureCmd.Heal(Owner, healAmount);
         await PowerCmd.Remove(this);
+
+        // 3. 如果治疗量大于已损失生命值，说明溢出了
+        if (healAmount > lostHp)
+        {
+            decimal overflow = healAmount - lostHp;
+            
+            // 获得溢出差值的不屈
+            await PowerCmd.Apply<UnbrokenPower>(
+                new ThrowingPlayerChoiceContext(), 
+                Owner, 
+                overflow, 
+                Owner, 
+                null);
+        }
     }
 }
