@@ -11,24 +11,15 @@ public static class Entry
 {
     public const string ModId = "DonQuixote";
     public static readonly string ResPath = $"res://{ModId}";
-    
-    // 提供 Logger 实例，避免对象引用报错
-    public static readonly Logger Logger = new Logger(ModId);
 
     public static void Init()
     {
         var assembly = Assembly.GetExecutingAssembly();
         
         RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
-        
-        // 自动注册 (如果需要 ModTypeDiscoveryHub，通常在这个命名空间下即可调用)
-        // 如果还是报错，说明旧手机的代码里有不同的 using，但这句是标准写法
-        try {
-            ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
-        } catch {
-            Logger.Info("ModTypeDiscoveryHub 注册失败或不存在，跳过。");
-        }
+        ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
 
+        // Harmony 补丁应用（关键：应用 CardPoolPatch / CraftPatches 等）
         try
         {
             var harmony = new Harmony(ModId);
