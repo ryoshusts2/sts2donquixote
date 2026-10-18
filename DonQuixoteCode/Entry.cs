@@ -42,4 +42,4 @@ public partial class Entry
 
         Logger.Info("DonQuixote initialized.");
     }
-}
+}// sync
