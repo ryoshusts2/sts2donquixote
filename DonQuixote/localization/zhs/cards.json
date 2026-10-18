@@ -76,7 +76,7 @@
   "DON_QUIXOTE_CARD_CHARGE_TO_DEATH.smartDescription": "获得等同于手牌数的临时[gold]力量[/gold]与[gold]易损[/gold]。[gold]消耗[/gold]。\n[gold]姿态：冲锋[/gold]",
   "DON_QUIXOTE_CARD_YOU_SHALL_NOT_BLOCK_ME.title": "你也要挡我？",
   "DON_QUIXOTE_CARD_YOU_SHALL_NOT_BLOCK_ME.description": "使一名敌人获得[gold]目标[/gold]。\n[gold]姿态：僵持[/gold]",
-  "DON_QUIXOTE_CARD_YOU_SHALL_NOT_BLOCK_ME.smartDescription": "使一名敌人获得[gold]目标[/gold]。\n[gold]姿态：僵持[/gold]",
+  "DON_QUIXOTE_CARD_YOU_SHALL_NOT_BLOCK_ME.smartDescription": "使所有敌人获得[gold]目标[/gold]。\n[gold]姿态：僵持[/gold]",
   "DON_QUIXOTE_CARD_FEEL_HONORED.title": "感到荣幸吧",
   "DON_QUIXOTE_CARD_FEEL_HONORED.description": "造成 {Damage:diff()} 点伤害，施加等同于未被格挡伤害的[gold]易损[/gold]。\n[gold]姿态：冲锋[/gold]",
   "DON_QUIXOTE_CARD_FEEL_HONORED.smartDescription": "造成 {Damage:diff()} 点伤害，施加等同于未被格挡伤害的[gold]易损[/gold]。\n[gold]姿态：冲锋[/gold]",
