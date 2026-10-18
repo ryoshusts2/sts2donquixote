@@ -1,13 +1,13 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Texture2D" path="res://DonQuixote/images/characters/DonQuixote_character_select.png" id="1_character"]
+[ext_resource type="Texture2D" path="res://DonQuixote/images/characters/DonQuixote_idle.png" id="1_character"]
 
 [node name="DonQuixoteCharacter" type="Node2D"]
 
 [node name="Visuals" type="Sprite2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(0, -92)
-scale = Vector2(1.25, 1.25)
+position = Vector2(0, -100)
+scale = Vector2(0.8, 0.8)
 texture = ExtResource("1_character")
 
 [node name="Bounds" type="Control" parent="."]

@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Characters;
 using STS2RitsuLib.Scaffolding.Godot;
+using STS2RitsuLib.Scaffolding.Visuals;
 
 namespace DonQuixote.Characters;
 
@@ -20,21 +21,15 @@ public sealed class DonQuixoteCharacter : ModCharacterTemplate<DonQuixoteCardPoo
     private const string RestSiteScenePath = $"{SceneRoot}/DonQuixote_rest_site.tscn";
     private const string CharacterSelectBgScenePath = $"{SceneRoot}/DonQuixote_character_select_bg.tscn";
 
-    // 角色名称颜色。
     public override Color NameColor => ThemeColor;
-    // 能量图标轮廓颜色。
     public override Color EnergyLabelOutlineColor => new(0.08f, 0.18f, 0.24f);
-    // 地图绘制颜色。
     public override Color MapDrawingColor => ThemeColor;
 
-    // 人物性别（男女中立）。
     public override CharacterGender Gender => CharacterGender.Neutral;
 
-    // 初始血量和金币。
     public override int StartingHp => 70;
     public override int StartingGold => 99;
 
-    // CharacterAssetProfile 按类别拆分。你只写需要替换的部分 ，其他字段会保留回退。
     public override CharacterAssetProfile AssetProfile => new(
         Scenes: new CharacterSceneAssetSet(
             VisualsPath: CharacterScenePath,
@@ -44,28 +39,30 @@ public sealed class DonQuixoteCharacter : ModCharacterTemplate<DonQuixoteCardPoo
         Ui: new CharacterUiAssetSet(
             IconTexturePath: $"{ImageRoot}/DonQuixote_character_icon.png",
             IconOutlineTexturePath: $"{ImageRoot}/DonQuixote_character_icon_outline.png",
-            IconPath: $"{SceneRoot}/DonQuixote_icon.tscn", // <--- 新增这一行，局内左上角头像
+            IconPath: $"{SceneRoot}/DonQuixote_icon.tscn",
             CharacterSelectBgPath: CharacterSelectBgScenePath,
             CharacterSelectIconPath: $"{ImageRoot}/DonQuixote_character_select.png",
             CharacterSelectLockedIconPath: $"{ImageRoot}/DonQuixote_character_select_locked.png",
-            MapMarkerPath: $"{ImageRoot}/DonQuixote_map_marker.png"));
+            MapMarkerPath: $"{ImageRoot}/DonQuixote_map_marker.png"),
+        // 战斗动画配置
+        VisualCues: ModVisualCues.CueSet()
+            .Single("idle", $"{ImageRoot}/DonQuixote_idle.png")
+            .Single("hit", $"{ImageRoot}/DonQuixote_idle.png", 0.5f) 
+            .Single("attack", $"{ImageRoot}/DonQuixote_idle.png", 0.5f)
+            .Single("dead", $"{ImageRoot}/DonQuixote_idle.png")
+            .Build());
 
-    // 某个字段没写时，RitsuLib 会从占位角色配置里补齐。
     public override string? PlaceholderCharacterId => "ironclad";
-    // 如果你的人物不需要时间线小故事，加上这句。
     public override bool RequiresEpochAndTimeline => false;
-    // 攻击和施法动画延迟，以对齐动画。静态占位资源不需要延迟 。
     public override float AttackAnimDelay => 0f;
     public override float CastAnimDelay => 0f;
 
-    // 让 RitsuLib 把普通 Godot 场景转换成游戏需要的 NCreatureVisuals。
     protected override NCreatureVisuals? TryCreateCreatureVisuals()
     {
         return RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(
             CharacterScenePath);
     }
 
-    // 攻击建筑师的攻击特效列表。
     public override List<string> GetArchitectAttackVfx()
     {
         return
