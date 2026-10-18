@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
-using MegaCrit.Sts2.Core.Logging;
+using Godot;
 using STS2RitsuLib;
 using STS2RitsuLib.Interop.AutoRegistration;
 
@@ -16,21 +16,38 @@ public static class Entry
     {
         var assembly = Assembly.GetExecutingAssembly();
         
-        RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, Logger);
-        ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
+        GD.Print("[DonQuixote] Initializing...");
 
-        // Harmony 补丁应用（关键：应用 CardPoolPatch / CraftPatches 等）
+        try
+        {
+            // 传入 null 或者实例，如果必须需要 Logger 实例，可能会报错，所以包在 try 里
+            RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, null);
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[DonQuixote] EnsureGodotScriptsRegistered failed: {ex.Message}");
+        }
+
+        try
+        {
+            ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
+        }
+        catch (Exception ex)
+        {
+            GD.PrintErr($"[DonQuixote] ModTypeDiscoveryHub failed: {ex.Message}");
+        }
+
         try
         {
             var harmony = new Harmony(ModId);
             harmony.PatchAll(assembly);
-            Logger.Info("DonQuixote Harmony patches applied.");
+            GD.Print("[DonQuixote] Harmony patches applied.");
         }
         catch (Exception ex)
         {
-            Logger.Error($"DonQuixote Harmony patch failed: {ex.Message}\n{ex.StackTrace}");
+            GD.PrintErr($"[DonQuixote] Harmony patch failed: {ex.Message}\n{ex.StackTrace}");
         }
 
-        Logger.Info("DonQuixote initialized.");
+        GD.Print("[DonQuixote] initialized.");
     }
 }
