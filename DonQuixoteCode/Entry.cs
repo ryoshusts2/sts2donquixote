@@ -3,7 +3,6 @@ using System.Reflection;
 using HarmonyLib;
 using Godot;
 using STS2RitsuLib;
-using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace DonQuixote;
 
@@ -20,7 +19,7 @@ public static class Entry
 
         try
         {
-            // 传入 null 或者实例，如果必须需要 Logger 实例，可能会报错，所以包在 try 里
+            // 注册 Godot 脚本和 Mod 程序集
             RitsuLibFramework.EnsureGodotScriptsRegistered(assembly, null);
         }
         catch (Exception ex)
@@ -28,14 +27,15 @@ public static class Entry
             GD.PrintErr($"[DonQuixote] EnsureGodotScriptsRegistered failed: {ex.Message}");
         }
 
-        try
-        {
-            ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
-        }
-        catch (Exception ex)
-        {
-            GD.PrintErr($"[DonQuixote] ModTypeDiscoveryHub failed: {ex.Message}");
-        }
+        // 注释掉了找不到的 ModTypeDiscoveryHub
+        // try
+        // {
+        //     ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
+        // }
+        // catch (Exception ex)
+        // {
+        //     GD.PrintErr($"[DonQuixote] ModTypeDiscoveryHub failed: {ex.Message}");
+        // }
 
         try
         {
