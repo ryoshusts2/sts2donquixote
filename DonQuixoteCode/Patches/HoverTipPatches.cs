@@ -19,7 +19,6 @@ public static class HoverTipPatches
 
         var extraTips = new List<IHoverTip>(__result ?? Enumerable.Empty<IHoverTip>());
 
-        // 1. 动态挂载卡牌涉及的自定义 Power
         if (__instance is DuelOfHonor) extraTips.Add(HoverTipFactory.FromPower<FairDuelPower>());
         if (__instance is ReinInAndTurn) extraTips.Add(HoverTipFactory.FromPower<ReinInMarkerPower>());
         if (__instance is ChargingUp) extraTips.Add(HoverTipFactory.FromPower<ChargingUpPower>());
@@ -62,7 +61,6 @@ public static class HoverTipPatches
         if (__instance is MuscleMemory) extraTips.Add(HoverTipFactory.FromPower<MuscleMemoryPower>());
         if (__instance is SeekGiant) extraTips.Add(HoverTipFactory.FromPower<DauntlessPower>());
 
-        // 2. 动态挂载姿态弹窗
         if (__instance is IStanceCard stanceCard)
         {
             switch (stanceCard.Stance)
@@ -82,7 +80,6 @@ public static class HoverTipPatches
             }
         }
 
-        // 直接返回，不强求去重，防止报错
         __result = extraTips;
     }
 }

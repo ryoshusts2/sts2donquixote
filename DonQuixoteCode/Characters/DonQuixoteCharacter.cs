@@ -44,7 +44,6 @@ public sealed class DonQuixoteCharacter : ModCharacterTemplate<DonQuixoteCardPoo
             CharacterSelectIconPath: $"{ImageRoot}/DonQuixote_character_select.png",
             CharacterSelectLockedIconPath: $"{ImageRoot}/DonQuixote_character_select_locked.png",
             MapMarkerPath: $"{ImageRoot}/DonQuixote_map_marker.png"),
-        // 战斗动画配置
         VisualCues: ModVisualCues.CueSet()
             .Single("idle", $"{ImageRoot}/DonQuixote_idle.png")
             .Single("hit", $"{ImageRoot}/DonQuixote_idle.png", 0.5f) 

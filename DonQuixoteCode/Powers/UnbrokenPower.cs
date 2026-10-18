@@ -28,7 +28,6 @@ public sealed class UnbrokenPower : ModPowerTemplate
         BigIconPath: $"{Entry.ResPath}/images/powers/{GetType().Name}.png"
     );
 
-    // 修复：改用 ModifyHpLostBeforeOstyLate，在所有减伤计算完毕后拦截致死
     public override decimal ModifyHpLostBeforeOstyLate(
         Creature target, decimal amount, ValueProp props,
         Creature? dealer, CardModel? cardSource)
