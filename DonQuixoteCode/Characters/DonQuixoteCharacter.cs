@@ -13,13 +13,13 @@ public sealed class DonQuixoteCharacter : ModCharacterTemplate<DonQuixoteCardPoo
 {
     public static readonly Color ThemeColor = new(0.42f, 0.65f, 0.72f);
 
-    private const string SceneRoot = $"{Entry.ResPath}/scenes/characters";
-    private const string ImageRoot = $"{Entry.ResPath}/images/characters";
-    private const string CharacterScenePath = $"{SceneRoot}/DonQuixote_character.tscn";
-    private const string EnergyCounterScenePath = $"{SceneRoot}/DonQuixote_energy_counter.tscn";
-    private const string MerchantScenePath = $"{SceneRoot}/DonQuixote_merchant.tscn";
-    private const string RestSiteScenePath = $"{SceneRoot}/DonQuixote_rest_site.tscn";
-    private const string CharacterSelectBgScenePath = $"{SceneRoot}/DonQuixote_character_select_bg.tscn";
+    private static readonly string SceneRoot = $"{Entry.ResPath}/scenes/characters";
+    private static readonly string ImageRoot = $"{Entry.ResPath}/images/characters";
+    private static readonly string CharacterScenePath = $"{SceneRoot}/DonQuixote_character.tscn";
+    private static readonly string EnergyCounterScenePath = $"{SceneRoot}/DonQuixote_energy_counter.tscn";
+    private static readonly string MerchantScenePath = $"{SceneRoot}/DonQuixote_merchant.tscn";
+    private static readonly string RestSiteScenePath = $"{SceneRoot}/DonQuixote_rest_site.tscn";
+    private static readonly string CharacterSelectBgScenePath = $"{SceneRoot}/DonQuixote_character_select_bg.tscn";
 
     public override Color NameColor => ThemeColor;
     public override Color EnergyLabelOutlineColor => new(0.08f, 0.18f, 0.24f);
