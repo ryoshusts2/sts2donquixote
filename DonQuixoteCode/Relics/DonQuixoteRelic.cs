@@ -10,7 +10,6 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Rewards;
 using DonQuixote.Characters;
-using DonQuixote.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Interactions.RightClick;
 using STS2RitsuLib.Scaffolding.Content;
@@ -85,18 +84,13 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
         if (room == null) return false;
         if (!room.RoomType.IsCombatRoom()) return false;
         
-        // 如果是最终 Boss，不给废料也不给额外遗物
         if (room.RoomType == RoomType.Boss && player.RunState.CurrentActIndex >= player.RunState.Acts.Count - 1)
         {
             return false;
         }
 
-        // 【新增逻辑】：如果拥有「完成委托」的标记，塞入一个遗物奖励！
-        var questPower = Owner.Creature.GetPower<QuestMarkerPower>();
-        if (questPower != null)
-        {
-            rewards.Add(new RelicReward(player));
-        }
+        // 纯粹替换金币为废料，不参与遗物奖励
+        rewards.RemoveAll(r => r is GoldReward);
 
         int scrap = room.RoomType switch
         {
@@ -104,9 +98,6 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
             RoomType.Boss => 5,
             _ => 1
         };
-
-        // 把金币奖励删掉
-        rewards.RemoveAll(r => r is GoldReward);
 
         ScrapCount[this] += scrap;
         DynamicVars["ScrapCount"].BaseValue = ScrapCount[this];
