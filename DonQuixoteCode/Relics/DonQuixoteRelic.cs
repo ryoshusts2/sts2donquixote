@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Rewards;
 using DonQuixote.Characters;
+using DonQuixote.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Interactions.RightClick;
 using STS2RitsuLib.Scaffolding.Content;
@@ -50,13 +51,11 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
 
     public bool CanHandleRightClickLocal(ModRightClickContext context)
     {
-        // 只有废料 >= 5 才能触发右键
         return HasEnoughScrap(5);
     }
 
     public async Task OnRightClick(ModRightClickExecutionContext context)
     {
-        // 再检查一次，防止并发或状态不同步
         if (!HasEnoughScrap(5)) return;
 
         SpendScrap(5);
@@ -85,9 +84,18 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
         if (player != Owner) return false;
         if (room == null) return false;
         if (!room.RoomType.IsCombatRoom()) return false;
+        
+        // 如果是最终 Boss，不给废料也不给额外遗物
         if (room.RoomType == RoomType.Boss && player.RunState.CurrentActIndex >= player.RunState.Acts.Count - 1)
         {
             return false;
+        }
+
+        // 【新增逻辑】：如果拥有「完成委托」的标记，塞入一个遗物奖励！
+        var questPower = Owner.Creature.GetPower<QuestMarkerPower>();
+        if (questPower != null)
+        {
+            rewards.Add(new RelicReward(player));
         }
 
         int scrap = room.RoomType switch
@@ -97,6 +105,7 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
             _ => 1
         };
 
+        // 把金币奖励删掉
         rewards.RemoveAll(r => r is GoldReward);
 
         ScrapCount[this] += scrap;

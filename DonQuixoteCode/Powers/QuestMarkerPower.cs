@@ -1,7 +1,6 @@
+using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -22,8 +21,7 @@ public sealed class QuestMarkerPower : ModPowerTemplate
 
     public override async Task AfterCombatVictory(CombatRoom room)
     {
-        if (Owner.Player == null) return;
-        room.AddExtraReward(Owner.Player, new RelicReward(Owner.Player));
+        // 这里不再加遗物，只负责移除自己
         await PowerCmd.Remove(this);
     }
 }
