@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Rewards;
 using DonQuixote.Characters;
+using DonQuixote.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Interactions.RightClick;
 using STS2RitsuLib.Scaffolding.Content;
@@ -46,8 +47,6 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
         DynamicVars["ScrapCount"].BaseValue = ScrapCount[this];
     }
 
-    // ================= 右键交互逻辑 =================
-
     public bool CanHandleRightClickLocal(ModRightClickContext context)
     {
         return HasEnoughScrap(5);
@@ -56,7 +55,6 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
     public async Task OnRightClick(ModRightClickExecutionContext context)
     {
         if (!HasEnoughScrap(5)) return;
-
         SpendScrap(5);
 
         var pool = new List<RelicModel>
@@ -76,8 +74,6 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
         }
     }
 
-    // ================= 战斗及房间逻辑 =================
-
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)
     {
         if (player != Owner) return false;
@@ -89,7 +85,12 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
             return false;
         }
 
-        // 纯粹替换金币为废料，不参与遗物奖励
+        // 【核心修复】检测到标记，就塞入一个遗物奖励
+        if (Owner.Creature.GetPower<QuestMarkerPower>() != null)
+        {
+            rewards.Add(new RelicReward(player));
+        }
+
         rewards.RemoveAll(r => r is GoldReward);
 
         int scrap = room.RoomType switch
