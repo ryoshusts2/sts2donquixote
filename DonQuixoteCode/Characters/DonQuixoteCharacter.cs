@@ -45,10 +45,8 @@ public sealed class DonQuixoteCharacter : ModCharacterTemplate<DonQuixoteCardPoo
             CharacterSelectLockedIconPath: $"{ImageRoot}/DonQuixote_character_select_locked.png",
             MapMarkerPath: $"{ImageRoot}/DonQuixote_map_marker.png"),
         VisualCues: ModVisualCues.CueSet()
+            // 【核心修改】：只保留 idle，删掉 attack 和 hit，防止出牌时强制切回一阶段
             .Single("idle", $"{ImageRoot}/DonQuixote_idle.png")
-            .Single("hit", $"{ImageRoot}/DonQuixote_idle.png", 0.5f) 
-            .Single("attack", $"{ImageRoot}/DonQuixote_idle.png", 0.5f)
-            .Single("dead", $"{ImageRoot}/DonQuixote_idle.png")
             .Build());
 
     public override string? PlaceholderCharacterId => "ironclad";

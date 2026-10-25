@@ -106,6 +106,7 @@ public sealed class MyNameIsDonQuixote : ModCardTemplate
         var dreamRelic = Owner.Relics.FirstOrDefault(r => r is UnwillingDreamRelic);
         if (dreamRelic != null) await RelicCmd.Remove(dreamRelic);
         await RelicCmd.Obtain(ModelDb.Relic<NeverWakeDreamRelic>().ToMutable(), Owner, Owner.Relics.Count);
+
         // 7. 失去所有粗糙废料遗物
         var roughScraps = Owner.Relics
             .Where(r => r.Id.Entry.StartsWith("DON_QUIXOTE_RELIC_ROUGH_SCRAP"))
