@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Godot;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Relics;
@@ -53,7 +55,7 @@ public sealed class MyNameIsDonQuixote : ModCardTemplate
             await CardPileCmd.RemoveFromDeck(deckCards);
         }
 
-        // 4. 加入 20 张二阶段卡（原版正确写法：Deck 用 RunState.CreateCard，Draw 用 CombatState.CreateCard）
+        // 4. 加入 20 张二阶段卡
         var deckPile = CardPile.Get(PileType.Deck, Owner);
         var drawPile = CardPile.Get(PileType.Draw, Owner);
 
@@ -95,8 +97,6 @@ public sealed class MyNameIsDonQuixote : ModCardTemplate
         await CardPileCmd.Add(RunState.CreateCard<FinalChargePrep>(Owner), deckPile);
         await CardPileCmd.Add(CombatState.CreateCard<FinalChargePrep>(Owner), drawPile);
 
-        Godot.GD.Print("[DonQuixote] Added 20 cards to Deck + Draw");
-
         // 5. 替换英雄的战利品 → 英雄的殊荣
         var heroRelic = Owner.Relics.FirstOrDefault(r => r is DonQuixoteRelic);
         if (heroRelic != null) await RelicCmd.Remove(heroRelic);
@@ -106,7 +106,6 @@ public sealed class MyNameIsDonQuixote : ModCardTemplate
         var dreamRelic = Owner.Relics.FirstOrDefault(r => r is UnwillingDreamRelic);
         if (dreamRelic != null) await RelicCmd.Remove(dreamRelic);
         await RelicCmd.Obtain(ModelDb.Relic<NeverWakeDreamRelic>().ToMutable(), Owner, Owner.Relics.Count);
-
         // 7. 失去所有粗糙废料遗物
         var roughScraps = Owner.Relics
             .Where(r => r.Id.Entry.StartsWith("DON_QUIXOTE_RELIC_ROUGH_SCRAP"))
@@ -121,6 +120,29 @@ public sealed class MyNameIsDonQuixote : ModCardTemplate
         await RelicCmd.Obtain(ModelDb.Relic<FantasySpearLonginus>().ToMutable(), Owner, Owner.Relics.Count);
         await RelicCmd.Obtain(ModelDb.Relic<FantasyMountDiomedes>().ToMutable(), Owner, Owner.Relics.Count);
         await RelicCmd.Obtain(ModelDb.Relic<FantasyIdentityCrimsonKnight>().ToMutable(), Owner, Owner.Relics.Count);
+
+        // 9. 【核心】替换战斗立绘为二阶段神装形态！
+        try
+        {
+            var creatureNode = Owner.Creature.GetCreatureNode();
+            if (creatureNode != null)
+            {
+                // 在场景里递归寻找名为 "Visuals" 的 Sprite2D
+                var sprite = creatureNode.FindChild("Visuals", true, false) as Sprite2D;
+                if (sprite != null)
+                {
+                    var phase2Tex = GD.Load<Texture2D>($"{Entry.ResPath}/images/characters/DonQuixote_idle_phase2.png");
+                    if (phase2Tex != null)
+                    {
+                        sprite.Texture = phase2Tex;
+                    }
+                }
+            }
+        }
+        catch (System.Exception ex)
+        {
+            GD.PrintErr($"[DonQuixote] 替换二阶段立绘失败: {ex.Message}");
+        }
 
         Godot.GD.Print("[DonQuixote] ===== 吾名堂吉诃德 完成 =====");
     }
