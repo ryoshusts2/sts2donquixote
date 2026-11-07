@@ -24,7 +24,6 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
     public static readonly SavedAttachedState<DonQuixoteRelic, int> ScrapCount =
         new("ScrapCount", _ => 0);
 
-    // 【新增】用来记录是否触发了完成委托的奖励
     public static readonly SavedAttachedState<DonQuixoteRelic, bool> PendingQuestReward =
         new("PendingQuestReward", _ => false);
 
@@ -88,11 +87,11 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
             return false;
         }
 
-        // 【核心修复】检查账本里是否有待领取的委托奖励
+        // 一阶段的账本触发
         if (PendingQuestReward[this])
         {
             rewards.Add(new RelicReward(player));
-            PendingQuestReward[this] = false; // 结算完立刻划掉账本
+            PendingQuestReward[this] = false;
         }
 
         rewards.RemoveAll(r => r is GoldReward);

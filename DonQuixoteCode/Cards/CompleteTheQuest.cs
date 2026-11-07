@@ -48,11 +48,20 @@ public sealed class CompleteTheQuest : ModCardTemplate, IStanceCard, IPhase2Card
 
         if (!target.IsAlive)
         {
-            // 【核心修复】击杀时，直接把账本标记为 true，不依赖会消失的 Power
+            // 一阶段：找英雄的战利品
             var heroRelic = Owner.Relics.FirstOrDefault(r => r is DonQuixoteRelic) as DonQuixoteRelic;
             if (heroRelic != null)
             {
                 DonQuixoteRelic.PendingQuestReward[heroRelic] = true;
+            }
+            else
+            {
+                // 二阶段：找英雄的殊荣
+                var gloryRelic = Owner.Relics.FirstOrDefault(r => r is HeroGloryRelic) as HeroGloryRelic;
+                if (gloryRelic != null)
+                {
+                    HeroGloryRelic.PendingQuestReward[gloryRelic] = true;
+                }
             }
         }
     }
