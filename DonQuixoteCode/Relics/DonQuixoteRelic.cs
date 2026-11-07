@@ -10,7 +10,6 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Rewards;
 using DonQuixote.Characters;
-using DonQuixote.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Interactions.RightClick;
 using STS2RitsuLib.Scaffolding.Content;
@@ -24,6 +23,10 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
 {
     public static readonly SavedAttachedState<DonQuixoteRelic, int> ScrapCount =
         new("ScrapCount", _ => 0);
+
+    // 【新增】用来记录是否触发了完成委托的奖励
+    public static readonly SavedAttachedState<DonQuixoteRelic, bool> PendingQuestReward =
+        new("PendingQuestReward", _ => false);
 
     public override RelicRarity Rarity => RelicRarity.Starter;
 
@@ -85,10 +88,11 @@ public sealed class DonQuixoteRelic : ModRelicTemplate, IModRightClickableRelic
             return false;
         }
 
-        // 【核心修复】检测到标记，就塞入一个遗物奖励
-        if (Owner.Creature.GetPower<QuestMarkerPower>() != null)
+        // 【核心修复】检查账本里是否有待领取的委托奖励
+        if (PendingQuestReward[this])
         {
             rewards.Add(new RelicReward(player));
+            PendingQuestReward[this] = false; // 结算完立刻划掉账本
         }
 
         rewards.RemoveAll(r => r is GoldReward);

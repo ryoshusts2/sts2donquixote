@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -5,7 +8,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using DonQuixote.Characters;
 using DonQuixote.Phases;
-using DonQuixote.Powers;
+using DonQuixote.Relics;
 using DonQuixote.Stance;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -45,8 +48,12 @@ public sealed class CompleteTheQuest : ModCardTemplate, IStanceCard, IPhase2Card
 
         if (!target.IsAlive)
         {
-            await PowerCmd.Apply<QuestMarkerPower>(
-                choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+            // 【核心修复】击杀时，直接把账本标记为 true，不依赖会消失的 Power
+            var heroRelic = Owner.Relics.FirstOrDefault(r => r is DonQuixoteRelic) as DonQuixoteRelic;
+            if (heroRelic != null)
+            {
+                DonQuixoteRelic.PendingQuestReward[heroRelic] = true;
+            }
         }
     }
 
